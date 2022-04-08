@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-
+/public/store
 # next.js
 /.next/
 /out/
@@ -32,3 +32,4 @@ yarn-error.log*
 
 # vercel
 .vercel
+
