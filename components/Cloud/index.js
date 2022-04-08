@@ -35,7 +35,7 @@ const Cloud = ({ slug, content }) => {
     const pathRelative = slug ? `/${slug.join('/')}` : '/'
     const req = await axios({
       method: 'post',
-      url: 'http://192.168.1.51:3000/api/createDirectory' + pathRelative,
+      url: 'http://localhost:3000/api/createDirectory' + pathRelative,
       data: {
         name: directoryName
       },
@@ -86,7 +86,7 @@ const Cloud = ({ slug, content }) => {
       }
     }
 
-    const response = await axios.post(`http://192.168.1.51:3000/api/upload${url}`, fd, config)
+    const response = await axios.post(`http://localhost:3000/api/upload${url}`, fd, config)
     console.log(response.data)
     if (response.data.data === 'success') {
       setUploadProgress({ completed: true, total: 0 })
