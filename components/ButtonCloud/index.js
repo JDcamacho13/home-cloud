@@ -1,12 +1,12 @@
-const ButtonCloud = ({ onClick, title, icon, inputFile}) => {
+const ButtonCloud = ({ onClick, title, icon, inputFile }) => {
   return (
     <>
-      { inputFile && 
-        inputFile()
+      { inputFile &&
+        inputFile
       }
       <button onClick={onClick}>
         <div className="create-dir">
-          { icon() }
+          { icon }
           { title }
         </div>
       </button>

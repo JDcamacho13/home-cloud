@@ -158,10 +158,10 @@ const Cloud = ({ slug, content }) => {
         <section>
           <div className="section-title">Carpetas</div>
           <div className="container-files">
-            <ButtonCloud 
-              onClick={toggleModalCreateDirectory} 
-              title='Crear carpeta' 
-              icon={() => <AddFolder width={30} height={30} />}
+            <ButtonCloud
+              onClick={toggleModalCreateDirectory}
+              title='Crear carpeta'
+              icon={<AddFolder width={30} height={30} />}
             />
             {
               content.directories.map(i => (
@@ -174,12 +174,12 @@ const Cloud = ({ slug, content }) => {
         <section>
           <div className="section-title">Archivos</div>
           <div className="container-files">
-            <ButtonCloud 
-              onClick={toggleModalUploadFile} 
-              title='Subir archivo' 
-              icon={() => <AddFile width={23} height={23} />}
+            <ButtonCloud
+              onClick={toggleModalUploadFile}
+              title='Subir archivo'
+              icon={<AddFile width={23} height={23} />}
               type='upload'
-              inputFile={() => <input type='file' ref={fileRef} onChange={handleFileUpload} />}
+              inputFile={<input type='file' ref={fileRef} onChange={handleFileUpload} />}
             />
             {
               content.directories.map(i => (
