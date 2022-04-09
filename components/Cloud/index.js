@@ -10,6 +10,7 @@ import CreateDirectory from 'components/CreateDirectory'
 import UploadingFile from 'components/UploadingFile'
 import AddFolder from 'components/icons/AddFolder'
 import AddFile from 'components/icons/AddFile'
+import File from 'components/File'
 
 const DRAG_FILES_STATES = {
   ERROR: -1,
@@ -182,8 +183,8 @@ const Cloud = ({ slug, content }) => {
               inputFile={<input type='file' ref={fileRef} onChange={handleFileUpload} />}
             />
             {
-              content.directories.map(i => (
-                <Directory name={i} url={urlPath} key={i}/>
+              content.files.map(i => (
+                <File name={i} url={urlPath} key={i}/>
               ))
             }
           </div>

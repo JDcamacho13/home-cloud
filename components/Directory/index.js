@@ -32,7 +32,6 @@ const Directory = ({ url, name }) => {
 
         a {
           width: 100%;
-          height: 75px;
           padding: 23px 33px;
           background: #2d2d2d;
           border-radius: 15px;
