@@ -1,18 +1,23 @@
 import { useState } from 'react'
 import Folder from 'components/icons/Folder'
-import Link from 'next/link'
 import FolderOpen from 'components/icons/FolderOpen'
 
 const File = ({ url, name }) => {
   const [hover, setHover] = useState(false)
-  const urlDirectory = `${url}/${name}`
+  const publicUrl = url.replace('storage', 'store')
+  const urlFile = `${publicUrl}/${name}`
+
+  // get extension
+  // filename.split('.').pop();
+
   return (
     <>
-      <Link href={urlDirectory}>
+
         <a
-          href={urlDirectory}
+          href={urlFile}
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
+          download
         >
           <div>
             {!hover
@@ -21,7 +26,6 @@ const File = ({ url, name }) => {
             }{name}
           </div>
         </a>
-      </Link>
 
       <style jsx>{`
         div {
@@ -32,7 +36,6 @@ const File = ({ url, name }) => {
 
         a {
           width: 100%;
-          height: 75px;
           padding: 23px 33px;
           background: #2d2d2d;
           border-radius: 15px;
