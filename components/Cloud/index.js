@@ -1,13 +1,15 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Directory from 'components/Directory'
 import NavStorage from 'components/NavStorage'
 import styles from 'styles/Home.module.css'
 import { useRouter } from 'next/router'
-import ButtonCreateDirectory from 'components/ButtonCreateDirectory'
+import ButtonCloud from 'components/ButtonCloud'
 import Modal from 'components/Modal'
 import axios from 'axios'
 import CreateDirectory from 'components/CreateDirectory'
 import UploadingFile from 'components/UploadingFile'
+import AddFolder from 'components/icons/AddFolder'
+import AddFile from 'components/icons/AddFile'
 
 const DRAG_FILES_STATES = {
   ERROR: -1,
@@ -22,11 +24,45 @@ const Cloud = ({ slug, content }) => {
   const [dragFiles, setDragFiles] = useState(DRAG_FILES_STATES.NONE)
   const [uploadProgress, setUploadProgress] = useState({ completed: false, total: 0 })
   const router = useRouter()
+  const fileRef = useRef()
   const urlPath = router.asPath
 
   const toggleModalCreateDirectory = (e) => {
     e.preventDefault()
     setCreateDirectoryModal(!createDirectoryModal)
+  }
+
+  const handleFileUpload = async () => {
+    const url = slug ? `/${slug.join('/')}` : '/'
+
+    const fd = new FormData()
+    fd.append('file', fileRef.current.files[0])
+    console.log(fd)
+    setDragFiles(DRAG_FILES_STATES.UPLOADING)
+    setCreateDirectoryModal(!createDirectoryModal)
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' },
+      onUploadProgress: (event) => {
+        setUploadProgress((prevState) => (
+          {
+            completed: prevState.completed,
+            total: Math.round((event.loaded * 100) / event.total)
+          }
+        ))
+      }
+    }
+
+    const response = await axios.post(`http://localhost:3000/api/upload${url}`, fd, config)
+    console.log(response.data)
+    if (response.data.data === 'success') {
+      setUploadProgress({ completed: true, total: 0 })
+      router.replace(router.asPath)
+    }
+    fileRef.current.value = ''
+  }
+
+  const toggleModalUploadFile = () => {
+    fileRef.current.click()
   }
 
   const handleCreateDirectory = async (e) => {
@@ -122,7 +158,11 @@ const Cloud = ({ slug, content }) => {
         <section>
           <div className="section-title">Carpetas</div>
           <div className="container-files">
-            <ButtonCreateDirectory onClick={toggleModalCreateDirectory}/>
+            <ButtonCloud 
+              onClick={toggleModalCreateDirectory} 
+              title='Crear carpeta' 
+              icon={() => <AddFolder width={30} height={30} />}
+            />
             {
               content.directories.map(i => (
                 <Directory name={i} url={urlPath} key={i}/>
@@ -134,7 +174,13 @@ const Cloud = ({ slug, content }) => {
         <section>
           <div className="section-title">Archivos</div>
           <div className="container-files">
-            <ButtonCreateDirectory onClick={toggleModalCreateDirectory}/>
+            <ButtonCloud 
+              onClick={toggleModalUploadFile} 
+              title='Subir archivo' 
+              icon={() => <AddFile width={23} height={23} />}
+              type='upload'
+              inputFile={() => <input type='file' ref={fileRef} onChange={handleFileUpload} />}
+            />
             {
               content.directories.map(i => (
                 <Directory name={i} url={urlPath} key={i}/>
@@ -162,6 +208,10 @@ const Cloud = ({ slug, content }) => {
       </Modal>
 
       <style jsx>{`
+
+        input[type='file'] {
+          display: none;
+        }
 
         .section-title {
           font-size: 1.5rem;
