@@ -1,17 +1,20 @@
-import AddFolder from 'components/icons/AddFolder'
-
-const ButtonCreateDirectory = ({ onClick }) => {
+const ButtonCloud = ({ onClick, title, icon, inputFile}) => {
   return (
     <>
-        <button onClick={onClick} >
-          <div className="create-dir">
-            <AddFolder width={30} height={30} /> Crear carpeta
-          </div>
-        </button>
+      { inputFile && 
+        inputFile()
+      }
+      <button onClick={onClick}>
+        <div className="create-dir">
+          { icon() }
+          { title }
+        </div>
+      </button>
 
       <style jsx>{`
         div {
           display: flex;
+          align-items: center;
           font-size: 21px;
           gap: 25px;
         }
@@ -45,4 +48,4 @@ const ButtonCreateDirectory = ({ onClick }) => {
   )
 }
 
-export default ButtonCreateDirectory
+export default ButtonCloud
