@@ -1,54 +1,89 @@
-import { useState } from 'react'
-import Folder from 'components/icons/Folder'
-import FolderOpen from 'components/icons/FolderOpen'
+import CompressIcon from 'components/icons/CompressIcon'
+import ExcelIcon from 'components/icons/ExcelIcon'
+import FileIcon from 'components/icons/FileIcon'
+import ImageIcon from 'components/icons/ImageIcon'
+import IsoIcon from 'components/icons/IsoIcon'
+import PdfIcon from 'components/icons/PdfIcon'
+import PowerPointIcon from 'components/icons/PowerPointIcon'
+import SoundIcon from 'components/icons/SoundIcon'
+import VideoIcon from 'components/icons/VideoIcon'
+import WordIcon from 'components/icons/WordIcon'
+
+const extension = {
+  jpg: <ImageIcon width={30} height={30} />,
+  png: <ImageIcon width={30} height={30} />,
+  jpeg: <ImageIcon width={30} height={30}/>,
+  mov: <VideoIcon width={30} height={30} />,
+  mkv: <VideoIcon width={30} height={30} />,
+  mp4: <VideoIcon width={30} height={30} />,
+  wmv: <VideoIcon width={30} height={30} />,
+  flv: <VideoIcon width={30} height={30}/>,
+  rar: <CompressIcon width={30} height={30} />,
+  zip: <CompressIcon width={30} height={30} />,
+  mp3: <SoundIcon width={30} height={30} />,
+  wav: <SoundIcon width={30} height={30} />,
+  ogg: <SoundIcon width={30} height={30} />,
+  iso: <IsoIcon width={30} height={30} />,
+  pdf: <PdfIcon width={30} height={30} />,
+  xlsx: <ExcelIcon width={30} height={30} />,
+  docx: <WordIcon width={30} height={30} />,
+  pptx: <PowerPointIcon width={30} height={30} />
+}
 
 const File = ({ url, name }) => {
-  const [hover, setHover] = useState(false)
   const publicUrl = url.replace('storage', 'store')
   const urlFile = `${publicUrl}/${name}`
-
-  // get extension
-  // filename.split('.').pop();
+  const nameContent = name.split('.')
+  const fileName = nameContent.splice(0, nameContent.length - 1).join('.')
+  const fileExtension = nameContent.pop()
 
   return (
     <>
 
-        <a
-          href={urlFile}
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
-          download
-        >
-          <div>
-            {!hover
-              ? <Folder width={30} height={30} />
-              : <FolderOpen width={30} height={30} />
-            }{name}
-          </div>
+        <a href={urlFile} download >
+            {extension[fileExtension] === undefined
+              ? <span className='icon'><FileIcon width={30} height={30} /></span>
+              : <span className='icon'>{extension[fileExtension]}</span>
+            }
+            <span className='name'>{fileName}</span>
+            <span className='extension'>.{fileExtension}</span>
         </a>
 
       <style jsx>{`
-        div {
-          display: flex;
-          font-size: 21px;
-          gap: 25px;
-        }
 
         a {
-          width: 100%;
+          display: flex;
           padding: 23px 33px;
+          width: 100%;
+          max-width: 100%;
+          font-size: 21px;
           background: #2d2d2d;
           border-radius: 15px;
           border: 2px solid #2d2d2d;
-          max-width: 100%;
-          box-shadow: rgb(0 0 0 / 40%) 5px 5px 12px 0px;;
+          box-shadow: rgb(0 0 0 / 40%) 5px 5px 12px 0px;
+          overflow: hidden;
           transition: all .5s ease;
         }
 
         a:hover {
           transform: scale(1.05)
         }
-        
+
+        .icon {
+          display: block;
+          margin-right: 20px;
+          white-space: nowrap;
+        }
+
+        .name{
+          display: block;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-right: 0;
+          min-width: 0;
+        }
+
       `}</style>
     </>
   )

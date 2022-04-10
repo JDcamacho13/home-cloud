@@ -91,7 +91,6 @@ const Cloud = ({ slug, content }) => {
   }
 
   const handleDragEnter = e => {
-    console.log('Entro')
     e.preventDefault()
     setDragFiles(DRAG_FILES_STATES.DRAG_OVER)
   }
@@ -144,53 +143,51 @@ const Cloud = ({ slug, content }) => {
   }
 
   return (
-    <div className={styles.container}>
-
-      <div>
-        <NavStorage url={slug} />
-      </div>
-
-      <div className="drag-container"
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
-        onDragOver={handleDragOver}
-        onDrop={handleDrop}
-      >
-        <section>
-          <div className="section-title">Carpetas</div>
-          <div className="container-files">
-            <ButtonCloud
-              onClick={toggleModalCreateDirectory}
-              title='Crear carpeta'
-              icon={<AddFolder width={30} height={30} />}
-            />
-            {
-              content.directories.map(i => (
-                <Directory name={i} url={urlPath} key={i}/>
-              ))
-            }
+    <>
+      <NavStorage url={slug} />
+      <main className={styles.container}>
+        <div className='main-content'>
+          <div
+            className="drag-container"
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
+            <section>
+              <div className="section-title">Carpetas</div>
+              <div className="container-files">
+                <ButtonCloud
+                  onClick={toggleModalCreateDirectory}
+                  title='Crear carpeta'
+                  icon={<AddFolder width={30} height={30} />}
+                />
+                {
+                  content.directories.map(i => (
+                    <Directory name={i} url={urlPath} key={i}/>
+                  ))
+                }
+              </div>
+            </section>
+            <section>
+              <div className="section-title">Archivos</div>
+              <div className="container-files files">
+                <ButtonCloud
+                  onClick={toggleModalUploadFile}
+                  title='Subir archivo'
+                  icon={<AddFile width={23} height={23} />}
+                  type='upload'
+                  inputFile={<input type='file' ref={fileRef} onChange={handleFileUpload} />}
+                />
+                {
+                  content.files.map(i => (
+                    <File name={i} url={urlPath} key={i}/>
+                  ))
+                }
+              </div>
+            </section>
           </div>
-        </section>
-
-        <section>
-          <div className="section-title">Archivos</div>
-          <div className="container-files">
-            <ButtonCloud
-              onClick={toggleModalUploadFile}
-              title='Subir archivo'
-              icon={<AddFile width={23} height={23} />}
-              type='upload'
-              inputFile={<input type='file' ref={fileRef} onChange={handleFileUpload} />}
-            />
-            {
-              content.files.map(i => (
-                <File name={i} url={urlPath} key={i}/>
-              ))
-            }
-          </div>
-        </section>
-
-      </div>
+        </div>
 
       <Modal visible={createDirectoryModal} setVisible={setCreateDirectoryModal} uploading={showModalUploading}>
         {
@@ -205,7 +202,6 @@ const Cloud = ({ slug, content }) => {
               <UploadingFile percent={uploadProgress.total} completed={uploadProgress.completed} handleClick={handleFinishUploading}/>
               )
         }
-
       </Modal>
 
       <style jsx>{`
@@ -214,24 +210,17 @@ const Cloud = ({ slug, content }) => {
           display: none;
         }
 
-        .section-title {
-          font-size: 1.5rem;
-          font-weight: bold;
-          margin-bottom: 1rem;
-          padding: 1rem;
-          border-bottom: 1px solid #ccc;
-        }  
+        .main-content {
+          padding-bottom: 20px;
+          height: 100%;
+        }
         
         .drag-container {
           margin: 0 auto;
-          
+          height: 100%;
           background: ${dragFiles === DRAG_FILES_STATES.DRAG_OVER ? 'rgba(0, 0, 0, .20)' : 'transparent'};;
-          max-width: 1200px;
-          width: 90%;
-          min-height: 65vh;
           border: ${dragFiles === DRAG_FILES_STATES.DRAG_OVER ? '2px dashed #09f' : '2px solid #1f1f1f'};
           border-radius: 10px;
-          padding: 25px;
         }
 
         .drag-container * {
@@ -239,28 +228,45 @@ const Cloud = ({ slug, content }) => {
         }
 
         .container-files {
-          margin-bottom: 50px;
           display: grid;
-          
-          grid-template-columns: 1fr 1fr 1fr;
-          gap: 50px 50px;
+          grid-template-columns: 1fr;
+          gap: 25px;
+          margin-bottom: 25px;
         }
 
-        @media (max-width: 1215px) {
+        .container-files.files {
+          margin-bottom: 0;
+        }
+
+        .section-title {
+          font-size: 1.5rem;
+          font-weight: bold;
+          margin-bottom: 1rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid #ccc;
+        }  
+        
+        @media (min-width: 768px) {
+          .drag-container {
+            padding: 25px;
+          }
           .container-files {
             grid-template-columns: 1fr 1fr;
-          }
-        }
-
-        @media (max-width: 678px) {
-          .container-files {
-            grid-template-columns: 1fr;
             gap: 30px 50px;
+            margin-bottom: 50px;
           }
         }
-      `}</style>
 
-    </div>
+        @media (min-width: 1024px) {
+          .container-files {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        `}</style>
+
+      </main>
+    </>
   )
 }
 
