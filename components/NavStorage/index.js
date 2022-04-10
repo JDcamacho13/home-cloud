@@ -10,9 +10,10 @@ export default function NavStorage ({ url = [] }) {
           <div className="element">
             <Link href="/storage">
               <a className="home-nav">
-                <Home /><span className='bar'>/</span>
+                <Home width={30} heigth={30} />
               </a>
             </Link>
+            <span className='bar'>/</span>
           </div>
           {url.map((i, index) => {
             storageUrl += `/${i}`
@@ -35,6 +36,7 @@ export default function NavStorage ({ url = [] }) {
 
       <style jsx>{`
 
+
         .header {
           margin: 0 auto;
           padding: 25px 0;
@@ -46,7 +48,7 @@ export default function NavStorage ({ url = [] }) {
           margin: 0 auto;
           padding: 0 15px;
           width: 100%;
-          height: 40px;
+          height: 55px;
           border: 1px solid #eee;
           border-radius: 10px;
           overflow-x: auto;
@@ -74,11 +76,17 @@ export default function NavStorage ({ url = [] }) {
           display: flex;
           align-items: center;
           height: 100%;
+          font-size: 18px;
         }
 
         .home-nav {
           display: flex;
           align-items: center;
+          transition: all .5s ease;
+        }
+
+        .home-nav:hover :global(svg) :global(path) {
+          fill: #09f;
         }
 
         .bar {

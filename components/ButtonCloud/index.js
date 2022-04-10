@@ -23,6 +23,14 @@ const ButtonCloud = ({ onClick, title, icon, inputFile }) => {
           margin: -5px 0;
         }
 
+        .create-dir > :global(.file) :global(svg) :global(path) {
+          transition: fill .5s ease;
+        }
+
+        button:hover .create-dir > :global(.file) :global(svg) :global(path) {
+          fill: #09f;
+        }
+
         button {
           width: 100%;
           padding: 23px 33px;
