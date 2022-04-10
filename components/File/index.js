@@ -43,7 +43,7 @@ const File = ({ url, name }) => {
         <a href={urlFile} download >
             {extension[fileExtension] === undefined
               ? <span className='icon'><FileIcon width={30} height={30} /></span>
-              : <span className='icon'>extension[fileExtension]</span>
+              : <span className='icon'>{extension[fileExtension]}</span>
             }
             <span className='name'>{fileName}</span>
             <span className='extension'>.{fileExtension}</span>

@@ -19,8 +19,8 @@ export default function NavStorage ({ url = [] }) {
 
             return (
               <div key={index} className="element">
-                { index !== 0 && 
-                  <span className='bar'> {'/'} </span>                
+                { index !== 0 &&
+                  <span className='bar'> {'/'} </span>
                 }
                 <Link href={storageUrl}>
                   <a>

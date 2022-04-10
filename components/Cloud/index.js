@@ -147,7 +147,7 @@ const Cloud = ({ slug, content }) => {
       <NavStorage url={slug} />
       <main className={styles.container}>
         <div className='main-content'>
-          <div 
+          <div
             className="drag-container"
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
@@ -188,7 +188,6 @@ const Cloud = ({ slug, content }) => {
             </section>
           </div>
         </div>
-
 
       <Modal visible={createDirectoryModal} setVisible={setCreateDirectoryModal} uploading={showModalUploading}>
         {
