@@ -1,15 +1,16 @@
 import Link from 'next/link'
+import { Home } from '../icons/Home'
 
 export default function NavStorage ({ url = [] }) {
   let storageUrl = '/storage'
   return (
     <>
-      <div className="container">
-        <nav>
+      <header className='header'>
+        <nav className='nav'>
           <div className="element">
             <Link href="/storage">
               <a className="home-nav">
-                🏠/
+                <Home /><span className='bar'>/</span>
               </a>
             </Link>
           </div>
@@ -18,7 +19,9 @@ export default function NavStorage ({ url = [] }) {
 
             return (
               <div key={index} className="element">
-                <span> {'>'} </span>
+                { index !== 0 && 
+                  <span className='bar'> {'/'} </span>                
+                }
                 <Link href={storageUrl}>
                   <a>
                     {i}
@@ -28,28 +31,24 @@ export default function NavStorage ({ url = [] }) {
             )
           })}
         </nav>
-      </div>
+      </header>
 
       <style jsx>{`
-        
-        .container {
-          padding: 50px 0;
-        }
 
-        .element {
-          height: 100%;
-          display: flex;
-          align-items: center;
-        }
-
-        nav {
+        .header {
           margin: 0 auto;
-          max-width: 1200px;
+          padding: 25px 0;
+          width: 100%;
+        }
+
+        .nav {
+          display: flex;
+          margin: 0 auto;
+          padding: 0 15px;
+          width: 100%;
           height: 40px;
           border: 1px solid #eee;
           border-radius: 10px;
-          padding: 0 15px;
-          display: flex;
           overflow-x: auto;
         }
 
@@ -71,7 +70,19 @@ export default function NavStorage ({ url = [] }) {
           box-shadow: inset 0px 0px 0px 0px #F0F0F0;
         }
         
-        span {
+        .element {
+          display: flex;
+          align-items: center;
+          height: 100%;
+        }
+
+        .home-nav {
+          display: flex;
+          align-items: center;
+        }
+
+        .bar {
+          line-height: 16px;
           margin: 0 10px
         }
 
@@ -79,11 +90,12 @@ export default function NavStorage ({ url = [] }) {
           color: #09f
         }
 
-        @media(max-width: 1200px) {
-          nav {
-            max-width: 90%;
+        @media (min-width: 768px) {
+          .header {
+            padding: 50px 25px 25px 25px;
           }
         }
+
       `}</style>
     </>
   )

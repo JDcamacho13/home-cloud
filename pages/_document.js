@@ -14,6 +14,12 @@ export default class MyDocument extends Document {
           <style>{`
             #__next { 
               position: relative;
+              min-height: 100vh;
+              display: grid;
+              grid-template-rows: min-content 1fr;
+              margin: 0 auto;
+              width: 90%;
+              max-width: 90%;
             }
           `}
           </style>
