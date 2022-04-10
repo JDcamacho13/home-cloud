@@ -10,7 +10,7 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <title>My page</title>
+          
           <style>{`
             #__next { 
               position: relative;
