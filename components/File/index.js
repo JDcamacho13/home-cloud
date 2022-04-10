@@ -1,29 +1,51 @@
-import { useState } from 'react'
-import Folder from 'components/icons/Folder'
-import FolderOpen from 'components/icons/FolderOpen'
+import CompressIcon from 'components/icons/CompressIcon'
+import ExcelIcon from 'components/icons/ExcelIcon'
+import FileIcon from 'components/icons/FileIcon'
+import ImageIcon from 'components/icons/ImageIcon'
+import IsoIcon from 'components/icons/IsoIcon'
+import PdfIcon from 'components/icons/PdfIcon'
+import PowerPointIcon from 'components/icons/PowerPointIcon'
+import SoundIcon from 'components/icons/SoundIcon'
+import VideoIcon from 'components/icons/VideoIcon'
+import WordIcon from 'components/icons/WordIcon'
+
+const extension = {
+  jpg: <ImageIcon width={30} height={30} />,
+  png: <ImageIcon width={30} height={30} />,
+  jpeg: <ImageIcon width={30} height={30}/>,
+  mov: <VideoIcon width={30} height={30} />,
+  mkv: <VideoIcon width={30} height={30} />,
+  mp4: <VideoIcon width={30} height={30} />,
+  wmv: <VideoIcon width={30} height={30} />,
+  flv: <VideoIcon width={30} height={30}/>,
+  rar: <CompressIcon width={30} height={30} />,
+  zip: <CompressIcon width={30} height={30} />,
+  mp3: <SoundIcon width={30} height={30} />,
+  wav: <SoundIcon width={30} height={30} />,
+  ogg: <SoundIcon width={30} height={30} />,
+  iso: <IsoIcon width={30} height={30} />,
+  pdf: <PdfIcon width={30} height={30} />,
+  xlsx: <ExcelIcon width={30} height={30} />,
+  docx: <WordIcon width={30} height={30} />,
+  pptx: <PowerPointIcon width={30} height={30} />
+}
 
 const File = ({ url, name }) => {
-  const [hover, setHover] = useState(false)
   const publicUrl = url.replace('storage', 'store')
   const urlFile = `${publicUrl}/${name}`
-
-  // get extension
-  // filename.split('.').pop();
+  const extensionFile = name.split('.').pop()
 
   return (
     <>
 
-        <a
-          href={urlFile}
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
-          download
-        >
+        <a href={urlFile} download >
           <div>
-            {!hover
-              ? <Folder width={30} height={30} />
-              : <FolderOpen width={30} height={30} />
-            }{name}
+            {extension[extensionFile] === undefined
+              ? <FileIcon width={30} height={30} />
+              : extension[extensionFile]
+            }
+
+            {name}
           </div>
         </a>
 
@@ -32,6 +54,7 @@ const File = ({ url, name }) => {
           display: flex;
           font-size: 21px;
           gap: 25px;
+          color: #fff;
         }
 
         a {
