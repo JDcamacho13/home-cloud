@@ -38,7 +38,7 @@ const Cloud = ({ slug, content }) => {
 
     const fd = new FormData()
     fd.append('file', fileRef.current.files[0])
-    console.log(fd)
+
     setDragFiles(DRAG_FILES_STATES.UPLOADING)
     setCreateDirectoryModal(!createDirectoryModal)
     const config = {
@@ -54,7 +54,7 @@ const Cloud = ({ slug, content }) => {
     }
 
     const response = await axios.post(`http://localhost:3000/api/upload${url}`, fd, config)
-    console.log(response.data)
+
     if (response.data.data === 'success') {
       setUploadProgress({ completed: true, total: 0 })
       router.replace(router.asPath)
@@ -107,7 +107,7 @@ const Cloud = ({ slug, content }) => {
 
     const fd = new FormData()
     fd.append('file', e.dataTransfer.files[0])
-    console.log(fd)
+
     setDragFiles(DRAG_FILES_STATES.UPLOADING)
     setCreateDirectoryModal(!createDirectoryModal)
     const config = {
@@ -123,7 +123,7 @@ const Cloud = ({ slug, content }) => {
     }
 
     const response = await axios.post(`http://localhost:3000/api/upload${url}`, fd, config)
-    console.log(response.data)
+
     if (response.data.data === 'success') {
       setUploadProgress({ completed: true, total: 0 })
       router.replace(router.asPath)
@@ -175,7 +175,7 @@ const Cloud = ({ slug, content }) => {
                 <ButtonCloud
                   onClick={toggleModalUploadFile}
                   title='Subir archivo'
-                  icon={<AddFile width={23} height={23} />}
+                  icon={<div className='file'><AddFile width={23} height={23} /></div>}
                   type='upload'
                   inputFile={<input type='file' ref={fileRef} onChange={handleFileUpload} />}
                 />
