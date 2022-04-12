@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useState, useRef } from 'react'
 import CompressIcon from 'components/icons/CompressIcon'
 import ExcelIcon from 'components/icons/ExcelIcon'
 import FileIcon from 'components/icons/FileIcon'
@@ -11,6 +11,9 @@ import VideoIcon from 'components/icons/VideoIcon'
 import WordIcon from 'components/icons/WordIcon'
 import OptionsMenu from 'components/OptionsMenu'
 import ButtonOption from 'components/ButtonOption'
+import Modal from 'components/Modal'
+import DeleteElement from 'components/DeleteElement'
+import RenameElement from 'components/RenameElement'
 
 const extension = {
   jpg: <ImageIcon width={30} height={30} />,
@@ -33,13 +36,23 @@ const extension = {
   pptx: <PowerPointIcon width={30} height={30} />
 }
 
-const File = ({ url, name, onDelete, onRename }) => {
+const File = ({ url, name }) => {
   const publicUrl = url.replace('storage', 'store')
   const downloadRef = useRef(null)
   const urlFile = `${publicUrl}/${name}`
   const nameContent = name.split('.')
   const fileName = nameContent.splice(0, nameContent.length - 1).join('.')
   const fileExtension = nameContent.pop()
+  const [showModalDeleting, setShowModalDeleting] = useState(false)
+  const [showModalRenaming, setShowModalRenaming] = useState(false)
+
+  const onDelete = () => {
+    setShowModalDeleting(true)
+  }
+
+  const onRename = () => {
+    setShowModalRenaming(true)
+  }
 
   const handleDownload = e => {
     downloadRef.current.setAttribute('download', fileName)
@@ -59,6 +72,27 @@ const File = ({ url, name, onDelete, onRename }) => {
             <ButtonOption title='Borrar' onClick={onDelete} />
           </OptionsMenu>
       </a>
+
+      {showModalDeleting
+        ? (
+            <Modal setVisible={setShowModalDeleting}>
+              <DeleteElement
+                url={urlFile}
+                toggleModalDeleting={() => setShowModalDeleting(false)}
+              />
+            </Modal>
+          )
+        : showModalRenaming
+          ? (
+            <Modal setVisible={setShowModalRenaming}>
+              <RenameElement
+                url={urlFile}
+                fileExtension={fileExtension}
+                toggleModalRenaming={() => setShowModalRenaming(false)}
+              />
+            </Modal>
+            )
+          : null}
 
       <style jsx>{`
 

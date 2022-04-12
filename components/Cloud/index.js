@@ -11,8 +11,6 @@ import UploadingFile from 'components/UploadingFile'
 import AddFolder from 'components/icons/AddFolder'
 import AddFile from 'components/icons/AddFile'
 import File from 'components/File'
-import DeleteElement from '../DeleteElement'
-import RenameElement from '../RenameElement'
 
 const DRAG_FILES_STATES = {
   ERROR: -1,
@@ -26,8 +24,6 @@ const Cloud = ({ slug, content }) => {
   const [dragFiles, setDragFiles] = useState(DRAG_FILES_STATES.NONE)
   const [showModalCreate, setShowModalCreate] = useState(false)
   const [showModalUploading, setShowModalUploading] = useState(false)
-  const [showModalDeleting, setShowModalDeleting] = useState(false)
-  const [showModalRenaming, setShowModalRenaming] = useState(false)
   const [uploadProgress, setUploadProgress] = useState({ completed: false, total: 0 })
   const router = useRouter()
   const fileRef = useRef()
@@ -145,14 +141,6 @@ const Cloud = ({ slug, content }) => {
     setUploadProgress({ completed: false, total: 0 })
   }
 
-  const handleOnDelete = () => {
-    setShowModalDeleting(true)
-  }
-
-  const handleOnRename = () => {
-    setShowModalRenaming(true)
-  }
-
   return (
     <>
       <NavStorage url={slug} />
@@ -175,7 +163,7 @@ const Cloud = ({ slug, content }) => {
                 />
                 {
                   content.directories.map(i => (
-                    <Directory name={i} url={urlPath} key={i} onDelete={handleOnDelete} onRename={handleOnRename} />
+                    <Directory name={i} url={urlPath} key={i} />
                   ))
                 }
               </div>
@@ -192,7 +180,7 @@ const Cloud = ({ slug, content }) => {
                 />
                 {
                   content.files.map(i => (
-                    <File name={i} url={urlPath} key={i} onDelete={handleOnDelete} onRename={handleOnRename} />
+                    <File name={i} url={urlPath} key={i} />
                   ))
                 }
               </div>
@@ -201,34 +189,26 @@ const Cloud = ({ slug, content }) => {
         </div>
 
         {
-          showModalUploading ? (
+          showModalUploading
+            ? (
             <Modal setVisible={setShowModalUploading} uploading={showModalUploading}>
-              <UploadingFile 
-                percent={uploadProgress.total} 
-                completed={uploadProgress.completed} 
-                handleClick={handleFinishUploading} 
+              <UploadingFile
+                percent={uploadProgress.total}
+                completed={uploadProgress.completed}
+                handleClick={handleFinishUploading}
               />
           </Modal>
-          ) : showModalCreate ? (
+              )
+            : showModalCreate
+              ? (
             <Modal setVisible={setShowModalCreate}>
               <CreateDirectory
                 handleCreateDirectory={handleCreateDirectory}
                 toggleModalCreateDirectory={toggleModalCreateDirectory}
               />
             </Modal>
-          ) : showModalDeleting ? (
-            <Modal setVisible={setShowModalDeleting}>
-              <DeleteElement
-                toggleModalDeleting={() => setShowModalDeleting(false)}
-              />
-            </Modal>
-          ) : showModalRenaming ? (
-            <Modal setVisible={setShowModalRenaming}>
-              <RenameElement
-                toggleModalRenaming={() => setShowModalRenaming(false)}
-              />
-            </Modal>
-          ) : null
+                )
+              : null
         }
 
       <style jsx>{`

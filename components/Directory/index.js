@@ -4,10 +4,26 @@ import Link from 'next/link'
 import FolderOpen from 'components/icons/FolderOpen'
 import OptionsMenu from 'components/OptionsMenu'
 import ButtonOption from 'components/ButtonOption'
+import DeleteElement from 'components/DeleteElement'
+import RenameElement from 'components/RenameElement'
+import Modal from 'components/Modal'
 
-const Directory = ({ url, name, onDelete, onRename }) => {
+const Directory = ({ url, name }) => {
+  const publicUrl = url.replace('storage', 'store')
+  const [showModalDeleting, setShowModalDeleting] = useState(false)
+  const [showModalRenaming, setShowModalRenaming] = useState(false)
   const [hover, setHover] = useState(false)
   const urlDirectory = `${url}/${name}`
+  const urlDirectoryBackend = `${publicUrl}/${name}`
+
+  const onDelete = () => {
+    setShowModalDeleting(true)
+  }
+
+  const onRename = () => {
+    setShowModalRenaming(true)
+  }
+
   return (
     <>
       <Link href={urlDirectory} getServerSideProps={true}>
@@ -27,6 +43,27 @@ const Directory = ({ url, name, onDelete, onRename }) => {
             </OptionsMenu>
         </a>
       </Link>
+
+      {showModalDeleting
+        ? (
+            <Modal setVisible={setShowModalDeleting}>
+              <DeleteElement
+                url={urlDirectoryBackend}
+                directory={true}
+                toggleModalDeleting={() => setShowModalDeleting(false)}
+              />
+            </Modal>
+          )
+        : showModalRenaming
+          ? (
+            <Modal setVisible={setShowModalRenaming}>
+              <RenameElement
+                url={urlDirectoryBackend}
+                toggleModalRenaming={() => setShowModalRenaming(false)}
+              />
+            </Modal>
+            )
+          : null}
 
       <style jsx>{`
       

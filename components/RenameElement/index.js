@@ -1,16 +1,49 @@
-const CreateDirectory = ({ toggleModalRenaming }) => {
-    return (
+import { useState } from 'react'
+import { useRouter } from 'next/router'
+import axios from 'axios'
+
+const RenameElement = ({ url, toggleModalRenaming, fileExtension = '' }) => {
+  const router = useRouter()
+  const [name, setName] = useState('')
+
+  const handleRename = async (e) => {
+    e.preventDefault()
+
+    const urlFile = url.replace('/store', '')
+    const extension = fileExtension.length > 0 ? `.${fileExtension}` : ''
+    const req = await axios({
+      method: 'put',
+      url: 'http://localhost:3000/api/renameFile',
+      data: {
+        url: urlFile,
+        newName: name,
+        extension
+      },
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
+
+    if (req.data.status) {
+      router.replace(router.asPath)
+      toggleModalRenaming()
+    } else {
+      alert(req.data.message)
+    }
+  }
+
+  return (
       <>
-        <h2>Renombrar elemento</h2>
+        <h2>Renombrar</h2>
         <form>
-            <label htmlFor="name" className="label">Nombre del elemento</label><br />
-            <input type="text" name="name" placeholder="Nueva nombre..." required autoComplete="off" />
+            <label htmlFor="name" className="label">Nuevo Nombre</label><br />
+            <input type="text" name="name" placeholder="Nuevo nombre..." required autoComplete="off" onChange={(e) => setName(e.target.value)} />
             <div className="buttons-container">
-            <button type="submit" className="accept">Aceptar</button>
+            <button onClick={handleRename} type="submit" className="accept">Aceptar</button>
             <button onClick={toggleModalRenaming} className="cancel">Cancelar</button>
             </div>
         </form>
-  
+
         <style jsx>{`
             h2 {
             font-size: 30px;
@@ -83,8 +116,7 @@ const CreateDirectory = ({ toggleModalRenaming }) => {
 
         `}</style>
       </>
-    )
-  }
-  
-  export default CreateDirectory
-  
+  )
+}
+
+export default RenameElement

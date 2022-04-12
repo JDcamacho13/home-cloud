@@ -1,13 +1,41 @@
-const CreateDirectory = ({ toggleModalDeleting }) => {
-    return (
+import { useRouter } from 'next/router'
+import axios from 'axios'
+
+const DeleteElement = ({ url, toggleModalDeleting, directory = false }) => {
+  const router = useRouter()
+
+  const handleDelete = async (e) => {
+    e.preventDefault()
+
+    const urlFile = url.replace('/store', '')
+    const req = await axios({
+      method: 'delete',
+      url: 'http://localhost:3000/api/deleteFile',
+      data: {
+        url: urlFile,
+        directory
+      },
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
+
+    if (req.data.status) {
+      router.replace(router.asPath)
+      toggleModalDeleting()
+    } else {
+      alert(req.data.message)
+    }
+  }
+
+  return (
       <>
         <h2>¿Estas Seguro de que quieres eliminar este elemento?</h2>
         <div className="buttons-container">
-          <button className="accept">Aceptar</button>
+          <button className="accept" onClick={handleDelete}>Aceptar</button>
           <button onClick={toggleModalDeleting} className="cancel">Cancelar</button>
         </div>
 
-  
         <style jsx>{`
           h2 {
             font-size: 30px;
@@ -59,8 +87,7 @@ const CreateDirectory = ({ toggleModalDeleting }) => {
   
         `}</style>
       </>
-    )
-  }
-  
-  export default CreateDirectory
-  
+  )
+}
+
+export default DeleteElement
