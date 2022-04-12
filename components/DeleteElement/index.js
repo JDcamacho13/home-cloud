@@ -3,8 +3,8 @@ const CreateDirectory = ({ toggleModalDeleting }) => {
       <>
         <h2>¿Estas Seguro de que quieres eliminar este elemento?</h2>
         <div className="buttons-container">
-          <button onClick={toggleModalDeleting} className="cancel">Cancelar</button>
           <button className="accept">Aceptar</button>
+          <button onClick={toggleModalDeleting} className="cancel">Cancelar</button>
         </div>
 
   
