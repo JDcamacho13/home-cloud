@@ -1,11 +1,14 @@
-const Modal = ({ children, visible, setVisible, uploading }) => {
-  const handleCilck = (e) => {
-    if (e.target.id === 'container' && !uploading)setVisible(!visible)
+const Modal = ({ children, setVisible, uploading }) => {
+
+  const handleClick = (e) => {
+    if (e.target.id === 'container' && !uploading){
+      setVisible(prev => !prev)
+    } 
   }
 
   return (
     <>
-      <div id="container" className="container" onClick={handleCilck} >
+      <div id="container" className="container" onClick={handleClick}>
         <div className="modal">
           {children}
         </div>
@@ -14,22 +17,22 @@ const Modal = ({ children, visible, setVisible, uploading }) => {
       <style jsx>{`
 
         .container {
-          width: 100%;
-          height: 100%;
-          min-height: 100vh;
-          position: absolute;
-          background: rgba(0, 0 ,0 ,.24);
+          position: fixed;
           top: 0;
-          display: ${visible ? 'flex' : 'none'};
-          place-content: center;
+          left: 0;
+          display: flex;;
+          align-items: center;
+          justify-content: center;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0, 0 ,0 ,.25);
         }
 
         .modal {
-          max-width: 85%;
+          padding: 10px;
           width: 600px;
+          max-width: 85%;
           height: 325px;
-          top: calc(50vh - 200px);
-          position: absolute;
           background: #fff;
           color: #242424;
           border-radius: 15px;
