@@ -1,13 +1,35 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { Context } from 'context/Context'
 import Folder from 'components/icons/Folder'
 import Link from 'next/link'
 import FolderOpen from 'components/icons/FolderOpen'
 import OptionsMenu from 'components/OptionsMenu'
 import ButtonOption from 'components/ButtonOption'
+import DeleteElement from '../DeleteElement'
+import RenameElement from '../RenameElement'
 
-const Directory = ({ url, name, onDelete, onRename }) => {
+const Directory = ({ url, name }) => {
   const [hover, setHover] = useState(false)
   const urlDirectory = `${url}/${name}`
+
+  const { toggleModal, setModalContent } = useContext(Context)
+
+  const onRename = e => {
+    e.preventDefault()
+    toggleModal(true)
+    setModalContent(<RenameElement
+      toggleModalRenaming={toggleModal}
+    />)
+  }
+
+  const onDelete = e => {
+    e.preventDefault()
+    toggleModal(true)
+    setModalContent(<DeleteElement
+      toggleModalDeleting={toggleModal}
+    />)
+  }
+
   return (
     <>
       <Link href={urlDirectory} getServerSideProps={true}>

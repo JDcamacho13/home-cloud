@@ -1,4 +1,5 @@
-import { useRef } from 'react'
+import { useRef, useContext } from 'react'
+import { Context } from 'context/Context'
 import CompressIcon from 'components/icons/CompressIcon'
 import ExcelIcon from 'components/icons/ExcelIcon'
 import FileIcon from 'components/icons/FileIcon'
@@ -11,6 +12,8 @@ import VideoIcon from 'components/icons/VideoIcon'
 import WordIcon from 'components/icons/WordIcon'
 import OptionsMenu from 'components/OptionsMenu'
 import ButtonOption from 'components/ButtonOption'
+import DeleteElement from '../DeleteElement'
+import RenameElement from '../RenameElement'
 
 const extension = {
   jpg: <ImageIcon width={30} height={30} />,
@@ -33,7 +36,8 @@ const extension = {
   pptx: <PowerPointIcon width={30} height={30} />
 }
 
-const File = ({ url, name, onDelete, onRename }) => {
+const File = ({ url, name }) => {
+  const { toggleModal, setModalContent } = useContext(Context)
   const publicUrl = url.replace('storage', 'store')
   const downloadRef = useRef(null)
   const urlFile = `${publicUrl}/${name}`
@@ -43,6 +47,22 @@ const File = ({ url, name, onDelete, onRename }) => {
 
   const handleDownload = e => {
     downloadRef.current.setAttribute('download', fileName)
+  }
+
+  const onRename = e => {
+    e.preventDefault()
+    toggleModal(true)
+    setModalContent(<RenameElement
+      toggleModalRenaming={toggleModal}
+    />)
+  }
+
+  const onDelete = e => {
+    e.preventDefault()
+    toggleModal(true)
+    setModalContent(<DeleteElement
+      toggleModalDeleting={toggleModal}
+    />)
   }
 
   return (

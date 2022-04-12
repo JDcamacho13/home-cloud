@@ -2,19 +2,19 @@ import { useState } from 'react'
 import DropDown from 'components/icons/DropDown'
 
 const OptionsMenu = ({ children }) => {
-    const [open, setOpen] = useState(false)
-    const handleOptionClick = e => {
-        e.preventDefault()
-        e.stopPropagation()
-        setOpen(!open)
-        console.log('xdd')
-    }
+  const [open, setOpen] = useState(false)
+  const handleOptionClick = e => {
+    e.preventDefault()
+    e.stopPropagation()
+    setOpen(!open)
+    console.log('xdd')
+  }
 
-    const handleBlur = () => {
-        setOpen(false)
-    }
+  const handleBlur = () => {
+    setOpen(false)
+  }
 
-    return (
+  return (
     <button onClick={handleOptionClick} onBlur={handleBlur}>
             <DropDown />
             {
@@ -23,7 +23,6 @@ const OptionsMenu = ({ children }) => {
                     { children }
                 </div>
             }
-
 
             <style jsx>{`
             
@@ -54,7 +53,7 @@ const OptionsMenu = ({ children }) => {
 
             `}</style>
         </button>
-    )
+  )
 }
 
 export default OptionsMenu

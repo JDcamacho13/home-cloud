@@ -1,5 +1,5 @@
-const CreateDirectory = ({ toggleModalRenaming }) => {
-    return (
+const RenameElement = ({ toggleModalRenaming }) => {
+  return (
       <>
         <h2>Renombrar elemento</h2>
         <form>
@@ -7,10 +7,10 @@ const CreateDirectory = ({ toggleModalRenaming }) => {
             <input type="text" name="name" placeholder="Nueva nombre..." required autoComplete="off" />
             <div className="buttons-container">
             <button type="submit" className="accept">Aceptar</button>
-            <button onClick={toggleModalRenaming} className="cancel">Cancelar</button>
+            <button onClick={() => toggleModalRenaming(false)} className="cancel">Cancelar</button>
             </div>
         </form>
-  
+
         <style jsx>{`
             h2 {
             font-size: 30px;
@@ -83,8 +83,7 @@ const CreateDirectory = ({ toggleModalRenaming }) => {
 
         `}</style>
       </>
-    )
-  }
-  
-  export default CreateDirectory
-  
+  )
+}
+
+export default RenameElement
