@@ -1,13 +1,12 @@
-const CreateDirectory = ({ toggleModalDeleting }) => {
-    return (
+const DeleteElement = ({ toggleModalDeleting }) => {
+  return (
       <>
         <h2>¿Estas Seguro de que quieres eliminar este elemento?</h2>
         <div className="buttons-container">
           <button className="accept">Aceptar</button>
-          <button onClick={toggleModalDeleting} className="cancel">Cancelar</button>
+          <button onClick={() => toggleModalDeleting(false)} className="cancel">Cancelar</button>
         </div>
 
-  
         <style jsx>{`
           h2 {
             font-size: 30px;
@@ -59,8 +58,7 @@ const CreateDirectory = ({ toggleModalDeleting }) => {
   
         `}</style>
       </>
-    )
-  }
-  
-  export default CreateDirectory
-  
+  )
+}
+
+export default DeleteElement

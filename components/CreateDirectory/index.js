@@ -7,7 +7,7 @@ const CreateDirectory = ({ handleCreateDirectory, toggleModalCreateDirectory }) 
         <input type="text" name="name" placeholder="Nueva carpeta..." required autoComplete="off" />
         <div className="buttons-container">
           <button type="submit" className="accept">Aceptar</button>
-          <button onClick={toggleModalCreateDirectory} className="cancel">Cancelar</button>
+          <button onClick={() => toggleModalCreateDirectory(false)} className="cancel">Cancelar</button>
         </div>
       </form>
 
