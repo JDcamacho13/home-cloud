@@ -1,10 +1,20 @@
-const DeleteElement = ({ toggleModalDeleting }) => {
+import { TOGGLE_DELETE_ELEMENT } from "actionTypes/cloudTypes"
+import { CloudContext } from "context/CloudContext"
+import { useContext } from "react"
+
+const DeleteElement = () => {
+  const { dispatch } = useContext(CloudContext)
+
+  const handleOnCancel = () => {
+    dispatch({ type: TOGGLE_DELETE_ELEMENT })
+  }
+
   return (
       <>
         <h2>¿Estas Seguro de que quieres eliminar este elemento?</h2>
         <div className="buttons-container">
           <button className="accept">Aceptar</button>
-          <button onClick={() => toggleModalDeleting(false)} className="cancel">Cancelar</button>
+          <button onClick={handleOnCancel} className="cancel">Cancelar</button>
         </div>
 
         <style jsx>{`

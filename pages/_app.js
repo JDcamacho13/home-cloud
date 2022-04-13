@@ -1,5 +1,5 @@
 import 'styles/globals.css'
-import { ContextProvider } from 'context/Context'
+import { ContextProvider } from 'context/CloudContext'
 
 function MyApp ({ Component, pageProps }) {
   return (

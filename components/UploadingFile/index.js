@@ -1,9 +1,19 @@
-const UploadingFile = ({ percent, completed, handleClick }) => {
+import { useContext } from "react"
+import { CloudContext } from "context/CloudContext"
+import { TOGGLE_UPLOAD } from "actionTypes/cloudTypes"
+
+const UploadingFile = () => {
+  const { state, dispatch } = useContext(CloudContext)
+
+  const handleOnClose = () => {
+    dispatch({ type: TOGGLE_UPLOAD })
+  }
+
   return (
     <>
       <div className="container">
       {
-        !completed
+        !state.uploadComplete
           ? (
           <div>
             <h1>Subiendo archivo</h1>
@@ -11,16 +21,16 @@ const UploadingFile = ({ percent, completed, handleClick }) => {
               <div className="progress-bar-fill" />
             </div>
             {
-              percent === 100
+              state.uploadPercent === 100
                 ? (<h3>Procesando archivo...</h3>)
-                : (<div className="progress-bar-percent">{percent}%</div>)
+                : (<div className="progress-bar-percent">{state.uploadPercent}%</div>)
             }
           </div>
             )
           : (
           <div>
             <h1>Archivo subido correctamente</h1>
-            <button className="btn" onClick={handleClick} >Cerrar</button>
+            <button className="btn" onClick={handleOnClose}>Cerrar</button>
           </div>
             )
       }
@@ -76,7 +86,7 @@ const UploadingFile = ({ percent, completed, handleClick }) => {
         }
 
         .progress-bar-fill {
-          width: ${percent}%;
+          width: ${state.uploadPercent}%;
           height: 15px;
           background-color: #4caf50;
           border-radius: 5px;

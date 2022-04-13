@@ -1,4 +1,14 @@
-const RenameElement = ({ toggleModalRenaming }) => {
+import { TOGGLE_RENAME_ELEMENT } from "actionTypes/cloudTypes"
+import { CloudContext } from "context/CloudContext"
+import { useContext } from "react"
+
+const RenameElement = () => {
+  const { dispatch } = useContext(CloudContext)
+
+  const handleOnCancel = () => {
+    dispatch({ type: TOGGLE_RENAME_ELEMENT })
+  }
+
   return (
       <>
         <h2>Renombrar elemento</h2>
@@ -7,7 +17,7 @@ const RenameElement = ({ toggleModalRenaming }) => {
             <input type="text" name="name" placeholder="Nueva nombre..." required autoComplete="off" />
             <div className="buttons-container">
             <button type="submit" className="accept">Aceptar</button>
-            <button onClick={() => toggleModalRenaming(false)} className="cancel">Cancelar</button>
+            <button onClick={handleOnCancel} className="cancel">Cancelar</button>
             </div>
         </form>
 
