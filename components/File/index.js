@@ -50,12 +50,12 @@ const File = ({ url, name }) => {
 
   const onRename = e => {
     e.preventDefault()
-    dispatch({ type: TOGGLE_RENAME_ELEMENT })
+    dispatch({ type: TOGGLE_RENAME_ELEMENT, payload: name })
   }
 
   const onDelete = e => {
     e.preventDefault()
-    dispatch({ type: TOGGLE_DELETE_ELEMENT })
+    dispatch({ type: TOGGLE_DELETE_ELEMENT, payload: name })
   }
 
   return (
