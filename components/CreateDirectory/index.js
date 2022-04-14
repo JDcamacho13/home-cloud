@@ -1,9 +1,9 @@
-import { TOGGLE_CREATE_DIRECTORY } from "actionTypes/cloudTypes"
-import { CloudContext } from "context/CloudContext"
-import { useContext } from "react"
+import { TOGGLE_CREATE_DIRECTORY } from 'actionTypes/cloudTypes'
+import { CloudContext } from 'context/CloudContext'
+import { useContext } from 'react'
 
 const CreateDirectory = ({ handleCreateDirectory }) => {
-  const { dispatch}  = useContext(CloudContext)
+  const { dispatch } = useContext(CloudContext)
 
   const handleOnCancel = () => {
     dispatch({ type: TOGGLE_CREATE_DIRECTORY })

@@ -14,7 +14,7 @@ import AddFolder from 'components/icons/AddFolder'
 import AddFile from 'components/icons/AddFile'
 import File from 'components/File'
 import { CloudContext } from 'context/CloudContext'
-import { TOGGLE_UPLOAD, TOGGLE_CREATE_DIRECTORY, TOGGLE_DRAG_ENTER, UPLOAD_PERCENTAGE, UPLOAD_COMPLETE } from 'actionTypes/cloudTypes'
+import { TOGGLE_UPLOAD, TOGGLE_CREATE_DIRECTORY, TOGGLE_DELETE_ELEMENT, TOGGLE_RENAME_ELEMENT, TOGGLE_DRAG_ENTER, UPLOAD_PERCENTAGE, UPLOAD_COMPLETE } from 'actionTypes/cloudTypes'
 
 const Cloud = ({ slug, content }) => {
   const { state, dispatch } = useContext(CloudContext)
@@ -22,8 +22,6 @@ const Cloud = ({ slug, content }) => {
   const fileRef = useRef()
   const urlPath = router.asPath
 
-  console.log(state)
-  
   const toggleModalCreateDirectory = () => {
     dispatch({ type: TOGGLE_CREATE_DIRECTORY })
   }
@@ -56,6 +54,57 @@ const Cloud = ({ slug, content }) => {
     fileRef.current.value = ''
   }
 
+  const handleRename = async (e, newName) => {
+    e.preventDefault()
+
+    const url = slug ? `/${slug.join('/')}` + '/' : '/'
+    const fileExtension = state.modificFilename.split('.').pop()
+    const extension = fileExtension === state.modificFilename ? '' : `.${fileExtension}`
+    const req = await axios({
+      method: 'put',
+      url: 'http://localhost:3000/api/renameFile',
+      data: {
+        url,
+        name: state.modificFilename,
+        newName,
+        extension
+      },
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
+
+    if (req.data.status) {
+      router.replace(router.asPath)
+      dispatch({ type: TOGGLE_RENAME_ELEMENT })
+    } else {
+      alert(req.data.message)
+    }
+  }
+
+  const handleDelete = async (e) => {
+    e.preventDefault()
+
+    const url = slug ? `/${slug.join('/')}` + '/' + state.modificFilename : '/' + state.modificFilename
+    const req = await axios({
+      method: 'delete',
+      url: 'http://localhost:3000/api/deleteFile',
+      data: {
+        url
+      },
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
+
+    if (req.data.status) {
+      router.replace(router.asPath)
+      dispatch({ type: TOGGLE_DELETE_ELEMENT })
+    } else {
+      alert(req.data.message)
+    }
+  }
+
   const handleCreateDirectory = async (e) => {
     e.preventDefault()
     const directoryName = e.target.name.value
@@ -74,37 +123,37 @@ const Cloud = ({ slug, content }) => {
     if (req.data.status) {
       router.replace(router.asPath)
       e.target.name.value = ''
-      dispatch({type: TOGGLE_CREATE_DIRECTORY })
+      dispatch({ type: TOGGLE_CREATE_DIRECTORY })
     } else {
       alert(req.data.message)
     }
   }
-  
+
   const handleDrop = async e => {
     e.preventDefault()
-    
+
     const url = slug ? `/${slug.join('/')}` : '/'
-    
+
     const fd = new FormData()
     fd.append('file', e.dataTransfer.files[0])
 
     dispatch({ type: TOGGLE_UPLOAD })
-    
+
     const config = {
       headers: { 'content-type': 'multipart/form-data' },
       onUploadProgress: (event) => {
         dispatch({ type: UPLOAD_PERCENTAGE, payload: Math.round((event.loaded * 100) / event.total) })
       }
     }
-      
-      const response = await axios.post(`http://localhost:3000/api/upload${url}`, fd, config)
-      
-      if (response.data.data === 'success') {
-        dispatch({ type: UPLOAD_COMPLETE })
-        router.replace(router.asPath)
-      }
+
+    const response = await axios.post(`http://localhost:3000/api/upload${url}`, fd, config)
+
+    if (response.data.data === 'success') {
+      dispatch({ type: UPLOAD_COMPLETE })
+      router.replace(router.asPath)
+    }
   }
-    
+
   const handleDragEnter = e => {
     e.preventDefault()
     dispatch({ type: TOGGLE_DRAG_ENTER })
@@ -114,11 +163,11 @@ const Cloud = ({ slug, content }) => {
     e.preventDefault()
     dispatch({ type: TOGGLE_DRAG_ENTER })
   }
-  
+
   const handleDragOver = e => {
     e.preventDefault()
   }
-  
+
   return (
     <>
       <NavStorage url={slug} />
@@ -167,29 +216,33 @@ const Cloud = ({ slug, content }) => {
         </div>
 
         {
-          state.createDirectory ? (
+          state.createDirectory
+            ? (
             <Modal>
-              <CreateDirectory 
+              <CreateDirectory
                 handleCreateDirectory={handleCreateDirectory}
               />
             </Modal>
-          )
-          : state.uploading ? (
-            <Modal>                  
+              )
+            : state.uploading
+              ? (
+            <Modal>
               <UploadingFile />
             </Modal>
-          ) 
-          : state.renameElement ? (
-            <Modal>                  
-              <RenameElement />
+                )
+              : state.renameElement
+                ? (
+            <Modal>
+              <RenameElement handleRename={handleRename} />
             </Modal>
-          ) 
-          : state.deleteElement ? (
-            <Modal>                  
-              <DeleteElement />
+                  )
+                : state.deleteElement
+                  ? (
+            <Modal>
+              <DeleteElement handleDelete={handleDelete} />
             </Modal>
-          )
-          : null
+                    )
+                  : null
         }
 
       <style jsx>{`

@@ -24,11 +24,11 @@ const removeDir = function (pathDirectory) {
 }
 
 export default async (req, res) => {
-  const { body: { url, directory } } = req
+  const { body: { url } } = req
   const { absolutePath } = processPath()
 
   try {
-    if (directory) {
+    if (fs.lstatSync(path.join(absolutePath, url)).isDirectory()) {
       removeDir(path.join(absolutePath, url))
     } else {
       await fs.promises.unlink(path.join(absolutePath, url))

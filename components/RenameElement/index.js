@@ -1,8 +1,9 @@
-import { TOGGLE_RENAME_ELEMENT } from "actionTypes/cloudTypes"
-import { CloudContext } from "context/CloudContext"
-import { useContext } from "react"
+import { TOGGLE_RENAME_ELEMENT } from 'actionTypes/cloudTypes'
+import { CloudContext } from 'context/CloudContext'
+import { useContext, useState } from 'react'
 
-const RenameElement = () => {
+const RenameElement = ({ handleRename }) => {
+  const [name, setName] = useState('')
   const { dispatch } = useContext(CloudContext)
 
   const handleOnCancel = () => {
@@ -11,12 +12,12 @@ const RenameElement = () => {
 
   return (
       <>
-        <h2>Renombrar elemento</h2>
+        <h2>Renombrar</h2>
         <form>
-            <label htmlFor="name" className="label">Nombre del elemento</label><br />
-            <input type="text" name="name" placeholder="Nueva nombre..." required autoComplete="off" />
+            <label htmlFor="name" className="label">Nuevo nombre</label><br />
+            <input type="text" name="name" placeholder="Nuevo nombre..." required autoComplete="off" value={name} onChange={(e) => setName(e.target.value) }/>
             <div className="buttons-container">
-            <button type="submit" className="accept">Aceptar</button>
+            <button type="submit" className="accept" onClick={(e) => handleRename(e, name)}>Aceptar</button>
             <button onClick={handleOnCancel} className="cancel">Cancelar</button>
             </div>
         </form>

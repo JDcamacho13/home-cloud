@@ -1,8 +1,8 @@
-import { TOGGLE_DELETE_ELEMENT } from "actionTypes/cloudTypes"
-import { CloudContext } from "context/CloudContext"
-import { useContext } from "react"
+import { TOGGLE_DELETE_ELEMENT } from 'actionTypes/cloudTypes'
+import { CloudContext } from 'context/CloudContext'
+import { useContext } from 'react'
 
-const DeleteElement = () => {
+const DeleteElement = ({ handleDelete }) => {
   const { dispatch } = useContext(CloudContext)
 
   const handleOnCancel = () => {
@@ -13,7 +13,7 @@ const DeleteElement = () => {
       <>
         <h2>¿Estas Seguro de que quieres eliminar este elemento?</h2>
         <div className="buttons-container">
-          <button className="accept">Aceptar</button>
+          <button onClick={handleDelete} className="accept">Aceptar</button>
           <button onClick={handleOnCancel} className="cancel">Cancelar</button>
         </div>
 
