@@ -12,7 +12,6 @@ export const initialState = {
 }
 
 export const cloudReducer = (state, action) => {
-  console.log(action)
   switch (action.type) {
     case TOGGLE_UPLOAD:
       return {

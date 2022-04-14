@@ -22,8 +22,6 @@ const Cloud = ({ slug, content }) => {
   const fileRef = useRef()
   const urlPath = router.asPath
 
-  console.log(state)
-
   const toggleModalCreateDirectory = () => {
     dispatch({ type: TOGGLE_CREATE_DIRECTORY })
   }
@@ -56,11 +54,38 @@ const Cloud = ({ slug, content }) => {
     fileRef.current.value = ''
   }
 
+  const handleRename = async (e, newName) => {
+    e.preventDefault()
+
+    const url = slug ? `/${slug.join('/')}` + '/' : '/'
+    const fileExtension = state.modificFilename.split('.').pop()
+    const extension = fileExtension === state.modificFilename ? '' : `.${fileExtension}`
+    const req = await axios({
+      method: 'put',
+      url: 'http://localhost:3000/api/renameFile',
+      data: {
+        url,
+        name: state.modificFilename,
+        newName,
+        extension
+      },
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
+
+    if (req.data.status) {
+      router.replace(router.asPath)
+      dispatch({ type: TOGGLE_RENAME_ELEMENT })
+    } else {
+      alert(req.data.message)
+    }
+  }
+
   const handleDelete = async (e) => {
     e.preventDefault()
 
     const url = slug ? `/${slug.join('/')}` + '/' + state.modificFilename : '/' + state.modificFilename
-    console.log(url)
     const req = await axios({
       method: 'delete',
       url: 'http://localhost:3000/api/deleteFile',
@@ -208,7 +233,7 @@ const Cloud = ({ slug, content }) => {
               : state.renameElement
                 ? (
             <Modal>
-              <RenameElement />
+              <RenameElement handleRename={handleRename} />
             </Modal>
                   )
                 : state.deleteElement

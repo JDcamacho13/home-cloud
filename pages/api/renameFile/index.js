@@ -3,11 +3,11 @@ import path from 'path'
 import processPath from 'utils/processPath'
 
 export default async (req, res) => {
-  const { body: { url, newName, extension } } = req
+  const { body: { url, name, newName, extension } } = req
   const { absolutePath } = processPath()
 
   try {
-    await fs.promises.rename(path.join(absolutePath, url), path.join(absolutePath, newName + extension))
+    await fs.promises.rename(path.join(absolutePath, url + name), path.join(absolutePath, url + newName + extension))
   } catch (error) {
     return res.status(400).json({
       status: false,
