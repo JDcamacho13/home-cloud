@@ -1,4 +1,14 @@
-const CreateDirectory = ({ handleCreateDirectory, toggleModalCreateDirectory }) => {
+import { TOGGLE_CREATE_DIRECTORY } from "actionTypes/cloudTypes"
+import { CloudContext } from "context/CloudContext"
+import { useContext } from "react"
+
+const CreateDirectory = ({ handleCreateDirectory }) => {
+  const { dispatch}  = useContext(CloudContext)
+
+  const handleOnCancel = () => {
+    dispatch({ type: TOGGLE_CREATE_DIRECTORY })
+  }
+
   return (
     <>
       <h2>Crear carpeta</h2>
@@ -7,7 +17,7 @@ const CreateDirectory = ({ handleCreateDirectory, toggleModalCreateDirectory }) 
         <input type="text" name="name" placeholder="Nueva carpeta..." required autoComplete="off" />
         <div className="buttons-container">
           <button type="submit" className="accept">Aceptar</button>
-          <button onClick={() => toggleModalCreateDirectory(false)} className="cancel">Cancelar</button>
+          <button className="cancel" onClick={handleOnCancel}>Cancelar</button>
         </div>
       </form>
 

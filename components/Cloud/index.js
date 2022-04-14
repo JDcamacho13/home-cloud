@@ -1,42 +1,35 @@
-import { useState, useRef, useContext } from 'react'
+import { useRef, useContext } from 'react'
+import axios from 'axios'
+import { useRouter } from 'next/router'
+import styles from 'styles/Home.module.css'
 import Directory from 'components/Directory'
 import NavStorage from 'components/NavStorage'
-import styles from 'styles/Home.module.css'
-import { useRouter } from 'next/router'
 import ButtonCloud from 'components/ButtonCloud'
 import Modal from 'components/Modal'
-import axios from 'axios'
 import CreateDirectory from 'components/CreateDirectory'
 import UploadingFile from 'components/UploadingFile'
+import RenameElement from 'components/RenameElement'
+import DeleteElement from 'components/DeleteElement'
 import AddFolder from 'components/icons/AddFolder'
 import AddFile from 'components/icons/AddFile'
 import File from 'components/File'
-import { Context } from 'context/Context'
-
-const DRAG_FILES_STATES = {
-  ERROR: -1,
-  NONE: 0,
-  DRAG_OVER: 1,
-  UPLOADING: 2,
-  COMPLETE: 3
-}
+import { CloudContext } from 'context/CloudContext'
+import { TOGGLE_UPLOAD, TOGGLE_CREATE_DIRECTORY, TOGGLE_DRAG_ENTER, UPLOAD_PERCENTAGE, UPLOAD_COMPLETE } from 'actionTypes/cloudTypes'
 
 const Cloud = ({ slug, content }) => {
-  const [dragFiles, setDragFiles] = useState(DRAG_FILES_STATES.NONE)
-  const [uploadProgress, setUploadProgress] = useState({ completed: false, total: 0 })
+  const { state, dispatch } = useContext(CloudContext)
   const router = useRouter()
   const fileRef = useRef()
   const urlPath = router.asPath
 
-  const { isModalOpen, toggleModal, modalContent, setModalContent } = useContext(Context)
+  console.log(state)
+  
+  const toggleModalCreateDirectory = () => {
+    dispatch({ type: TOGGLE_CREATE_DIRECTORY })
+  }
 
-  const toggleModalCreateDirectory = (e) => {
-    e.preventDefault()
-    toggleModal(true)
-    setModalContent(<CreateDirectory
-      handleCreateDirectory={handleCreateDirectory}
-      toggleModalCreateDirectory={toggleModal}
-    />)
+  const toggleUploadDialogBox = () => {
+    fileRef.current.click()
   }
 
   const handleFileUpload = async () => {
@@ -45,32 +38,22 @@ const Cloud = ({ slug, content }) => {
     const fd = new FormData()
     fd.append('file', fileRef.current.files[0])
 
-    setDragFiles(DRAG_FILES_STATES.UPLOADING)
-    toggleModal(true)
-    setModalContent('Uploading')
+    dispatch({ type: TOGGLE_UPLOAD })
+
     const config = {
       headers: { 'content-type': 'multipart/form-data' },
       onUploadProgress: (event) => {
-        setUploadProgress((prevState) => (
-          {
-            completed: prevState.completed,
-            total: Math.round((event.loaded * 100) / event.total)
-          }
-        ))
+        dispatch({ type: UPLOAD_PERCENTAGE, payload: Math.round((event.loaded * 100) / event.total) })
       }
     }
 
     const response = await axios.post(`http://localhost:3000/api/upload${url}`, fd, config)
 
     if (response.data.data === 'success') {
-      setUploadProgress({ completed: true, total: 0 })
+      dispatch({ type: UPLOAD_COMPLETE })
       router.replace(router.asPath)
     }
     fileRef.current.value = ''
-  }
-
-  const toggleModalUploadFile = () => {
-    fileRef.current.click()
   }
 
   const handleCreateDirectory = async (e) => {
@@ -91,63 +74,51 @@ const Cloud = ({ slug, content }) => {
     if (req.data.status) {
       router.replace(router.asPath)
       e.target.name.value = ''
-      toggleModal(false)
+      dispatch({type: TOGGLE_CREATE_DIRECTORY })
     } else {
       alert(req.data.message)
     }
   }
+  
+  const handleDrop = async e => {
+    e.preventDefault()
+    
+    const url = slug ? `/${slug.join('/')}` : '/'
+    
+    const fd = new FormData()
+    fd.append('file', e.dataTransfer.files[0])
 
+    dispatch({ type: TOGGLE_UPLOAD })
+    
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' },
+      onUploadProgress: (event) => {
+        dispatch({ type: UPLOAD_PERCENTAGE, payload: Math.round((event.loaded * 100) / event.total) })
+      }
+    }
+      
+      const response = await axios.post(`http://localhost:3000/api/upload${url}`, fd, config)
+      
+      if (response.data.data === 'success') {
+        dispatch({ type: UPLOAD_COMPLETE })
+        router.replace(router.asPath)
+      }
+  }
+    
   const handleDragEnter = e => {
     e.preventDefault()
-    setDragFiles(DRAG_FILES_STATES.DRAG_OVER)
+    dispatch({ type: TOGGLE_DRAG_ENTER })
   }
 
   const handleDragLeave = e => {
     e.preventDefault()
-    setDragFiles(DRAG_FILES_STATES.NONE)
+    dispatch({ type: TOGGLE_DRAG_ENTER })
   }
-
-  const handleDrop = async e => {
-    e.preventDefault()
-
-    const url = slug ? `/${slug.join('/')}` : '/'
-
-    const fd = new FormData()
-    fd.append('file', e.dataTransfer.files[0])
-
-    setDragFiles(DRAG_FILES_STATES.UPLOADING)
-    toggleModal(true)
-    setModalContent(setModalContent('Uploading'))
-    const config = {
-      headers: { 'content-type': 'multipart/form-data' },
-      onUploadProgress: (event) => {
-        setUploadProgress((prevState) => (
-          {
-            completed: prevState.completed,
-            total: Math.round((event.loaded * 100) / event.total)
-          }
-        ))
-      }
-    }
-
-    const response = await axios.post(`http://localhost:3000/api/upload${url}`, fd, config)
-
-    if (response.data.data === 'success') {
-      setUploadProgress({ completed: true, total: 0 })
-      router.replace(router.asPath)
-    }
-  }
-
+  
   const handleDragOver = e => {
     e.preventDefault()
   }
-
-  const handleFinishUploading = () => {
-    setDragFiles(DRAG_FILES_STATES.NONE)
-    toggleModal(false)
-    setUploadProgress({ completed: false, total: 0 })
-  }
-
+  
   return (
     <>
       <NavStorage url={slug} />
@@ -159,7 +130,7 @@ const Cloud = ({ slug, content }) => {
             onDragLeave={handleDragLeave}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
-          >
+            >
             <section>
               <div className="section-title">Carpetas</div>
               <div className="container-files">
@@ -179,7 +150,7 @@ const Cloud = ({ slug, content }) => {
               <div className="section-title">Archivos</div>
               <div className="container-files files">
                 <ButtonCloud
-                  onClick={toggleModalUploadFile}
+                  onClick={toggleUploadDialogBox}
                   title='Subir archivo'
                   icon={<div className='file'><AddFile width={23} height={23} /></div>}
                   type='upload'
@@ -196,58 +167,30 @@ const Cloud = ({ slug, content }) => {
         </div>
 
         {
-          isModalOpen && (
-            <Modal setVisible={toggleModal}>
-              {modalContent === 'Uploading'
-                ? <UploadingFile
-                  percent={uploadProgress.total}
-                  completed={uploadProgress.completed}
-                  handleClick={handleFinishUploading}
-                />
-                : modalContent}
-
+          state.createDirectory ? (
+            <Modal>
+              <CreateDirectory 
+                handleCreateDirectory={handleCreateDirectory}
+              />
             </Modal>
           )
+          : state.uploading ? (
+            <Modal>                  
+              <UploadingFile />
+            </Modal>
+          ) 
+          : state.renameElement ? (
+            <Modal>                  
+              <RenameElement />
+            </Modal>
+          ) 
+          : state.deleteElement ? (
+            <Modal>                  
+              <DeleteElement />
+            </Modal>
+          )
+          : null
         }
-
-        {/* {
-          showModalUploading
-            ? (
-            <Modal setVisible={setShowModalUploading} uploading={showModalUploading}>
-              <UploadingFile
-                percent={uploadProgress.total}
-                completed={uploadProgress.completed}
-                handleClick={handleFinishUploading}
-              />
-          </Modal>
-              )
-            : showModalCreate
-              ? (
-            <Modal setVisible={setShowModalCreate}>
-              <CreateDirectory
-                handleCreateDirectory={handleCreateDirectory}
-                toggleModalCreateDirectory={toggleModalCreateDirectory}
-              />
-            </Modal>
-                )
-              : showModalDeleting
-                ? (
-            <Modal setVisible={setShowModalDeleting}>
-              <DeleteElement
-                toggleModalDeleting={() => setShowModalDeleting(false)}
-              />
-            </Modal>
-                  )
-                : showModalRenaming
-                  ? (
-            <Modal setVisible={setShowModalRenaming}>
-              <RenameElement
-                toggleModalRenaming={() => setShowModalRenaming(false)}
-              />
-            </Modal>
-                    )
-                  : null
-        } */}
 
       <style jsx>{`
 
@@ -263,13 +206,13 @@ const Cloud = ({ slug, content }) => {
         .drag-container {
           margin: 0 auto;
           height: 100%;
-          background: ${dragFiles === DRAG_FILES_STATES.DRAG_OVER ? 'rgba(0, 0, 0, .20)' : 'transparent'};;
-          border: ${dragFiles === DRAG_FILES_STATES.DRAG_OVER ? '2px dashed #09f' : '2px solid #1f1f1f'};
+          background: ${state.dragEnter ? 'rgba(0, 0, 0, .20)' : 'transparent'};;
+          border: ${state.dragEnter ? '2px dashed #09f' : '2px solid #1f1f1f'};
           border-radius: 10px;
         }
 
         .drag-container * {
-          ${dragFiles === DRAG_FILES_STATES.DRAG_OVER && 'pointer-events: none;'}
+          ${state.dragEnter && 'pointer-events: none;'}
         }
 
         .container-files {

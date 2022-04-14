@@ -1,22 +1,36 @@
-const Modal = ({ children, setVisible, uploading }) => {
+import reactDOM from "react-dom"
+import { CloudContext } from "context/CloudContext"
+import { useContext } from "react"
+import { TOGGLE_CREATE_DIRECTORY, TOGGLE_DELETE_ELEMENT, TOGGLE_RENAME_ELEMENT, TOGGLE_UPLOAD } from "actionTypes/cloudTypes"
 
-  const handleClick = (e) => {
-    if (e.target.id === 'container' && !uploading){
-      setVisible(prev => !prev)
-    } 
+const Modal = ({ children }) => {
+  const { state, dispatch } = useContext(CloudContext)
+
+  const handleOnClick = (e) => {
+    if (e.target.id === 'modal-bg') {
+      if (state.createDirectory) {
+        dispatch({ type: TOGGLE_CREATE_DIRECTORY })
+      } else if (state.deleteElement) {
+        dispatch({ type: TOGGLE_DELETE_ELEMENT })
+      } else if (state.renameElement) {
+        dispatch({ type: TOGGLE_RENAME_ELEMENT })
+      } else if (state.uploadComplete) {
+        dispatch({ type: TOGGLE_UPLOAD })
+      }
+    }
   }
 
-  return (
+  return reactDOM.createPortal(
     <>
-      <div id="container" className="container" onClick={handleClick}>
-        <div className="modal">
+      <div id="modal-bg" className="modal-bg" onClick={handleOnClick}>
+        <div className="modal-content" >
           {children}
         </div>
       </div>
 
       <style jsx>{`
 
-        .container {
+        .modal-bg {
           position: fixed;
           top: 0;
           left: 0;
@@ -25,10 +39,10 @@ const Modal = ({ children, setVisible, uploading }) => {
           justify-content: center;
           width: 100vw;
           height: 100vh;
-          background: rgba(0, 0 ,0 ,.25);
+          background: rgba(0, 0 ,0 ,.5);
         }
 
-        .modal {
+        .modal-content {
           padding: 10px;
           width: 600px;
           max-width: 85%;
@@ -39,7 +53,8 @@ const Modal = ({ children, setVisible, uploading }) => {
         }
       `}</style>
 
-    </>
+    </>, 
+    document.getElementById('modal')
   )
 }
 

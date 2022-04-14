@@ -1,5 +1,5 @@
 import { useRef, useContext } from 'react'
-import { Context } from 'context/Context'
+import { CloudContext } from 'context/CloudContext'
 import CompressIcon from 'components/icons/CompressIcon'
 import ExcelIcon from 'components/icons/ExcelIcon'
 import FileIcon from 'components/icons/FileIcon'
@@ -12,8 +12,7 @@ import VideoIcon from 'components/icons/VideoIcon'
 import WordIcon from 'components/icons/WordIcon'
 import OptionsMenu from 'components/OptionsMenu'
 import ButtonOption from 'components/ButtonOption'
-import DeleteElement from '../DeleteElement'
-import RenameElement from '../RenameElement'
+import { TOGGLE_DELETE_ELEMENT, TOGGLE_RENAME_ELEMENT } from 'actionTypes/cloudTypes'
 
 const extension = {
   jpg: <ImageIcon width={30} height={30} />,
@@ -37,7 +36,7 @@ const extension = {
 }
 
 const File = ({ url, name }) => {
-  const { toggleModal, setModalContent } = useContext(Context)
+  const { dispatch } = useContext(CloudContext)
   const publicUrl = url.replace('storage', 'store')
   const downloadRef = useRef(null)
   const urlFile = `${publicUrl}/${name}`
@@ -45,24 +44,18 @@ const File = ({ url, name }) => {
   const fileName = nameContent.splice(0, nameContent.length - 1).join('.')
   const fileExtension = nameContent.pop()
 
-  const handleDownload = e => {
+  const handleDownload = () => {
     downloadRef.current.setAttribute('download', fileName)
   }
 
   const onRename = e => {
     e.preventDefault()
-    toggleModal(true)
-    setModalContent(<RenameElement
-      toggleModalRenaming={toggleModal}
-    />)
+    dispatch({ type: TOGGLE_RENAME_ELEMENT })
   }
 
   const onDelete = e => {
     e.preventDefault()
-    toggleModal(true)
-    setModalContent(<DeleteElement
-      toggleModalDeleting={toggleModal}
-    />)
+    dispatch({ type: TOGGLE_DELETE_ELEMENT })
   }
 
   return (

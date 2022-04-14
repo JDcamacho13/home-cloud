@@ -7,7 +7,6 @@ const OptionsMenu = ({ children }) => {
     e.preventDefault()
     e.stopPropagation()
     setOpen(!open)
-    console.log('xdd')
   }
 
   const handleBlur = () => {
