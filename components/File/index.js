@@ -1,4 +1,4 @@
-import { useRef, useContext, lazy, Suspense } from 'react'
+import { memo, useRef, useContext, lazy, Suspense } from 'react'
 import { CloudContext } from 'context/CloudContext'
 import { extensionIconFinder } from '../../utils/extensionIconFinder'
 import OptionsMenu from 'components/OptionsMenu'
@@ -90,4 +90,4 @@ const File = ({ url, name }) => {
   )
 }
 
-export default File
+export default memo(File)

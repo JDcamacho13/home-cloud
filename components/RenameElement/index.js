@@ -11,89 +11,94 @@ const RenameElement = ({ handleRename }) => {
   }
 
   return (
-      <>
+    <>
+      <form>
         <h2>Renombrar</h2>
-        <form>
-            <label htmlFor="name" className="label">Nuevo nombre</label><br />
-            <input type="text" name="name" placeholder="Nuevo nombre..." required autoComplete="off" value={name} onChange={(e) => setName(e.target.value) }/>
-            <div className="buttons-container">
-            <button type="submit" className="accept" onClick={(e) => handleRename(e, name)}>Aceptar</button>
-            <button onClick={handleOnCancel} className="cancel">Cancelar</button>
-            </div>
-        </form>
+        <label htmlFor="name" className="label">Ingresa el nuevo nombre</label>
+        <input type="text" name="name" placeholder="Nuevo nombre..." required autoComplete="off" value={name} onChange={(e) => setName(e.target.value) }/>
+        <div className="buttons-container">
+          <button type="submit" className="accept" onClick={(e) => handleRename(e, name)}>Aceptar</button>
+          <button onClick={handleOnCancel} className="cancel">Cancelar</button>
+        </div>
+      </form>
 
-        <style jsx>{`
-            h2 {
-            font-size: 30px;
-            text-align: center;
-            }
+      <style jsx>{`
+        form {
+          display: grid;
+          gap: 24px;
+          justify-items: center;
+          font-size: 21px;
+          text-align: center;
+        }
 
-            form {
-            width: 80%;
-            margin: 0 auto;
-            font-size: 21px;
-            }
+        h2 {
+          margin: 0;
+          font-size: 30px;
+          text-align: center;
+        }
 
-            input {
-            margin: 5px 0 20px 0;
-            width: 100%;
-            height: 32px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding-left: 15px;
-            outline: none;
-            }
+        input {
+          padding: 10px 0;
+          max-width: 250px;
+          text-align: center;
+          font-size: 18px;
+          color: white;
+          background: none;
+          border: none;
+          border-bottom: 2px dashed white;
+          outline: none;
+          transition: all .5 ease;
+        }
 
-            input:focus {
-            border-color: #333;
-            }
+        input:hover {
+          border-color: #09f;
+        }
 
-            .buttons-container {
-            margin: 30px 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            flex-direction: row-reverse;
-            }
+        input:focus {
+          border-color: #09f;
+        }
 
-            button {
-            min-width: 105px;
-            width: 40%;
-            font-size: 18px;
-            padding: 10px 15px;
-            border-radius: 7.5px;
-            font-weight: 600;
-            }
+        .buttons-container {
+          width: 100%;
+          display: flex;
+          justify-content: space-around;
+          flex-direction: row-reverse;
+        }
 
-            .cancel {
-            background: #fff;
-            color: #767676;
-            border: 2px solid #aaa;
-            cursor: pointer;
-            transition: background 0.5s ease;
-            }
+        button {
+          padding: 10px 15px;
+          font-size: 18px;
+          background: #2d2d2d;
+          border-radius: 10px;
+          border: 2px dashed #eee;
+          max-width: 100%;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+          transition: all .5s ease;
+          cursor: pointer;
+          color: #fff;
+        }
 
-            .cancel:hover {
-            background: #aaa;
-            color: #fff;
-            }
+        button:hover {
+          color: #09f;
+          border-color: #09f;
+          transform: scale(1.05)
+        }
 
-            .accept {
-            background: #187ff5;
-            color: #fff;
-            border: 2px solid #187ff5;
-            cursor: pointer;
-            transition: background 0.5s ease;
-            }
+        .cancel {
+          background: none;
+          box-shadow: none;
+          border: 2px dashed transparent;
+          outline: none;
+        }
 
-            .accept:hover {
-            background: #09f;
-            border: 2px solid #09f;
-            }
+        .cancel:hover {
+          background: #2d2d2d;
+          color: #d62828;
+          border: 2px dashed #d62828;
+        }
 
-        `}</style>
-      </>
+      `}</style>
+    </>
   )
 }
 

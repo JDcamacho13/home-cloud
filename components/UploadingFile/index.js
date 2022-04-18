@@ -15,7 +15,7 @@ const UploadingFile = () => {
       {
         !state.uploadComplete
           ? (
-          <div>
+          <>
             <h1>Subiendo archivo</h1>
             <div className="progress-bar">
               <div className="progress-bar-fill" />
@@ -25,77 +25,73 @@ const UploadingFile = () => {
                 ? (<h3>Procesando archivo...</h3>)
                 : (<div className="progress-bar-percent">{state.uploadPercent}%</div>)
             }
-          </div>
-            )
+          </>
+          )
           : (
-          <div>
+          <>
             <h1>Archivo subido correctamente</h1>
-            <button className="btn" onClick={handleOnClose}>Cerrar</button>
-          </div>
+            <button onClick={handleOnClose}>Cerrar</button>
+          </>
             )
       }
 
       </div>
 
       <style jsx>{`
-        .btn {
-          display: block;
-          margin: 0 auto;
-          min-width: 105px;
-          width: 40%;
-          font-size: 18px;
-          padding: 10px 15px;
-          border-radius: 7.5px;
-          font-weight: 600;
-          background: #187ff5;
-          color: #fff;
-          border: 2px solid #187ff5;
-          cursor: pointer;
-          transition: background 0.5s ease;
-        }
-
-        .btn:hover {
-          background: #09f;
-          border: 2px solid #09f;
-        }
-
         .container {
-          margin: 80px 0;
-        }
-
-        h1 {
+          display: grid;
+          gap: 24px;
+          justify-items: center;
+          font-size: 21px;
           text-align: center;
+        }
+        
+        h1 {
+          margin: 0;
           font-size: 1.8rem;
-          margin-bottom: 2rem;
         }
 
         h3 {
-          text-align: center;
+          margin: 0;
           font-size: 1.4rem;
-          margin-bottom: 2rem;
           font-weight: 400;
         }
 
+        button {
+          padding: 10px 15px;
+          font-size: 18px;
+          background: #2d2d2d;
+          border-radius: 10px;
+          border: 2px dashed #eee;
+          max-width: 100%;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+          transition: all .5s ease;
+          cursor: pointer;
+          color: #fff;
+        }
+
+        button:hover {
+          color: #09f;
+          border-color: #09f;
+          transform: scale(1.05)
+        }
+
         .progress-bar {
-          margin: 0 auto;
-          width: 80%;
-          height: 15px;
+          width: 100%;
+          height: 30px;
           background-color: #e5e5e5;
-          border-radius: 2px;
-          margin-bottom: 10px;
+          border-radius: 10px;
         }
 
         .progress-bar-fill {
           width: ${state.uploadPercent}%;
-          height: 15px;
-          background-color: #4caf50;
-          border-radius: 5px;
+          height: 30px;
+          background-color: #09f;
+          border-radius: 10px;
         }
 
         .progress-bar-percent {
-          text-align: center;
           font-size: 1.5rem;
-          margin-top: 10px;
         }
       `}</style>
     </>
