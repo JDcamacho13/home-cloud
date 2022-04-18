@@ -17,7 +17,7 @@ export default function Home ({ content }) {
 }
 
 export async function getServerSideProps () {
-  const content = await axios.get('http://localhost:3000/api/storage/')
+  const content = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/storage/`)
 
   return {
     props: {
