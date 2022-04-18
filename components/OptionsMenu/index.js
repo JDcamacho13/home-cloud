@@ -14,7 +14,7 @@ const OptionsMenu = ({ children }) => {
   }
 
   return (
-    <button onClick={handleOptionClick} onBlur={handleBlur}>
+    <button onClick={handleOptionClick} onBlur={handleBlur} >
             <DropDown />
             {
                 open &&
@@ -26,14 +26,27 @@ const OptionsMenu = ({ children }) => {
             <style jsx>{`
             
                 button {
-                    position: absolute;
-                    right: 5px;
-                    top: 10px;
-                    padding: 5px;
-                    background: none;
-                    border: none;
-                    outline: none;
-                    cursor: pointer;
+                  width: 27.5px;
+                  height: 27.5px;
+                  position: absolute;
+                  right: 5px;
+                  top: 10px;
+                  padding: 3.5px 1.2px 0px 0px;
+                  background: none;
+                  border: 1px transparent solid;
+                  outline: none;
+                  cursor: pointer;
+                  transition: all .5 ease;
+                }
+
+                button:hover :global(svg) :global(path) {
+                  fill: #09f
+                }
+
+                button:hover {
+                  border: 1px solid #09f;
+                  border-radius: 50%;
+
                 }
 
                 .options-menu {
@@ -43,9 +56,10 @@ const OptionsMenu = ({ children }) => {
                     right: 100%;
                     flex-direction: column;
                     padding: 10px;
-                    background-color: #343a40;
+                    /* background-color: #343a40; */
+                    background-color: #292929;
                     border-radius: 10px 0 10px 10px;
-                    box-shadow: rgb(0 0 0 / 40%) 5px 5px 12px 0px;
+                    box-shadow: rgb(0 0 0 / 50%) 5px 5px 12px 5px;
                     z-index: 10;
                     transform: translateX(12.5%);
                 }

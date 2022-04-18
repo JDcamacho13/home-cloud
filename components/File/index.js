@@ -1,5 +1,4 @@
-import React, { useRef, useContext } from 'react'
-import { lazy, Suspense } from 'react'
+import { useRef, useContext, lazy, Suspense } from 'react'
 import { CloudContext } from 'context/CloudContext'
 import { extensionIconFinder } from '../../utils/extensionIconFinder'
 import OptionsMenu from 'components/OptionsMenu'
@@ -61,6 +60,10 @@ const File = ({ url, name }) => {
           border: 2px solid #2d2d2d;
           box-shadow: rgb(0 0 0 / 40%) 5px 5px 12px 0px;
           transition: all .5s ease;
+        }
+        
+        a:hover {
+          color: #09f;
         }
 
         /* a:hover {

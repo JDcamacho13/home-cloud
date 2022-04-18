@@ -1,11 +1,9 @@
-import * as React from "react"
-
 const DropDown = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 517.8 306.6"
     style={{
-      enableBackground: "new 0 0 517.8 306.6",
+      enableBackground: 'new 0 0 517.8 306.6'
     }}
     xmlSpace="preserve"
     width={12}
