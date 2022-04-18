@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 const Home = (props) => (
   <svg
     id="Layer_1"
