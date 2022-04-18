@@ -43,12 +43,11 @@ const Modal = ({ children }) => {
         }
 
         .modal-content {
-          padding: 10px;
-          width: 600px;
-          max-width: 85%;
-          height: 325px;
-          background: #fff;
-          color: #242424;
+          padding: 24px;
+          width: 90%;
+          max-width: 500px;
+          background: #2a2a2a;
+          color: white;
           border-radius: 15px;
         }
       `}</style>
