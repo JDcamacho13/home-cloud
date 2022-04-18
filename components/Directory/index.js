@@ -59,9 +59,9 @@ const Directory = ({ url, name }) => {
           transition: all .5s ease;
         }
 
-        /* a:hover {
-          transform: scale(1.05)
-        } */
+        a:hover {
+          color: #09f;
+        }
 
         .icon {
           display: block;
