@@ -45,7 +45,7 @@ const Cloud = ({ slug, content }) => {
       }
     }
 
-    const response = await axios.post(`http://localhost:3000/api/upload${url}`, fd, config)
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/upload${url}`, fd, config)
 
     if (response.data.data === 'success') {
       dispatch({ type: UPLOAD_COMPLETE })
@@ -62,7 +62,7 @@ const Cloud = ({ slug, content }) => {
     const extension = fileExtension === state.modificFilename ? '' : `.${fileExtension}`
     const req = await axios({
       method: 'put',
-      url: 'http://localhost:3000/api/renameFile',
+      url: `${process.env.NEXT_PUBLIC_HOST}/api/renameFile`,
       data: {
         url,
         name: state.modificFilename,
@@ -88,7 +88,7 @@ const Cloud = ({ slug, content }) => {
     const url = slug ? `/${slug.join('/')}` + '/' + state.modificFilename : '/' + state.modificFilename
     const req = await axios({
       method: 'delete',
-      url: 'http://localhost:3000/api/deleteFile',
+      url: `${process.env.NEXT_PUBLIC_HOST}/api/deleteFile`,
       data: {
         url
       },
@@ -111,7 +111,7 @@ const Cloud = ({ slug, content }) => {
     const pathRelative = slug ? `/${slug.join('/')}` : '/'
     const req = await axios({
       method: 'post',
-      url: 'http://localhost:3000/api/createDirectory' + pathRelative,
+      url: `${process.env.NEXT_PUBLIC_HOST}/api/createDirectory` + pathRelative,
       data: {
         name: directoryName
       },
@@ -146,7 +146,7 @@ const Cloud = ({ slug, content }) => {
       }
     }
 
-    const response = await axios.post(`http://localhost:3000/api/upload${url}`, fd, config)
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/upload${url}`, fd, config)
 
     if (response.data.data === 'success') {
       dispatch({ type: UPLOAD_COMPLETE })

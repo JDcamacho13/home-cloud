@@ -21,7 +21,7 @@ export async function getServerSideProps (context) {
 
   const url = slug.join('/')
 
-  const content = await axios.get('http://localhost:3000/api/storage/' + url)
+  const content = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/storage/` + url)
 
   return {
     props: {
