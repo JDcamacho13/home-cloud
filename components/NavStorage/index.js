@@ -1,11 +1,15 @@
 import Link from 'next/link'
 import { Home } from '../icons/Home'
+import ThemeMode from '../ThemeMode'
 
 export default function NavStorage ({ url = [] }) {
   let storageUrl = '/storage'
   return (
     <>
       <header className='header'>
+        <div className='container-theme-mode'>
+          <ThemeMode />
+        </div>
         <nav className='nav'>
           <div className="element">
             <Link href="/storage">
@@ -36,11 +40,17 @@ export default function NavStorage ({ url = [] }) {
 
       <style jsx>{`
 
+        .container-theme-mode {
+          display: flex;
+          margin-bottom: 25px;
+          justify-content: flex-end
+        }
 
         .header {
           margin: 0 auto;
           padding: 25px 0;
           width: 100%;
+          max-width: calc(90vw - 50px)
         }
 
         .nav {
@@ -100,7 +110,7 @@ export default function NavStorage ({ url = [] }) {
 
         @media (min-width: 768px) {
           .header {
-            padding: 50px 25px 25px 25px;
+            padding: 25px 25px 25px 25px;
           }
         }
 
