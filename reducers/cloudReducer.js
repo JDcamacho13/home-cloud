@@ -1,4 +1,4 @@
-import { TOGGLE_UPLOAD, TOGGLE_CREATE_DIRECTORY, TOGGLE_DELETE_ELEMENT, TOGGLE_RENAME_ELEMENT, TOGGLE_DRAG_ENTER, UPLOAD_PERCENTAGE, UPLOAD_COMPLETE } from '../actionTypes/cloudTypes'
+import { TOGGLE_THEME_MODE, TOGGLE_UPLOAD, TOGGLE_CREATE_DIRECTORY, TOGGLE_DELETE_ELEMENT, TOGGLE_RENAME_ELEMENT, TOGGLE_DRAG_ENTER, UPLOAD_PERCENTAGE, UPLOAD_COMPLETE } from '../actionTypes/cloudTypes'
 
 export const initialState = {
   uploading: false,
@@ -8,11 +8,17 @@ export const initialState = {
   deleteElement: false,
   renameElement: false,
   dragEnter: false,
-  modificFilename: null
+  modificFilename: null,
+  themeMode: false
 }
 
 export const cloudReducer = (state, action) => {
   switch (action.type) {
+    case TOGGLE_THEME_MODE:
+      return {
+        ...state,
+        themeMode: !state.themeMode
+      }
     case TOGGLE_UPLOAD:
       return {
         ...state,
