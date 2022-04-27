@@ -201,7 +201,7 @@ const Cloud = ({ slug, content }) => {
                 <ButtonCloud
                   onClick={toggleUploadDialogBox}
                   title='Subir archivo'
-                  icon={<div className='file'><AddFile width={23} height={23} /></div>}
+                  icon={<div className='file'><AddFile width={23} height={23}/></div>}
                   type='upload'
                   inputFile={<input type='file' ref={fileRef} onChange={handleFileUpload} />}
                 />
@@ -259,8 +259,9 @@ const Cloud = ({ slug, content }) => {
         .drag-container {
           margin: 0 auto;
           height: 100%;
-          background: ${state.dragEnter ? 'rgba(0, 0, 0, .20)' : 'transparent'};;
-          border: ${state.dragEnter ? '2px dashed #09f' : '2px solid #1f1f1f'};
+          background: ${state.dragEnter ? 'rgba(0, 0, 0, .20)' : 'transparent'};
+          border: 0;
+          padding: 25px;
           border-radius: 10px;
         }
 
@@ -280,7 +281,8 @@ const Cloud = ({ slug, content }) => {
         }
 
         .section-title {
-          font-size: 1.5rem;
+          color: ${state.darkmode ? 'white' : '#09f'};
+          font-size: 1.8rem;
           font-weight: bold;
           margin-bottom: 1rem;
           padding-bottom: 1rem;
@@ -289,8 +291,9 @@ const Cloud = ({ slug, content }) => {
         
         @media (min-width: 768px) {
           .drag-container {
-            padding: 25px;
+            border: ${state.dragEnter ? '2px dashed #09f' : '2px solid #1f1f1f'};
           }
+
           .container-files {
             grid-template-columns: 1fr 1fr;
             gap: 30px 50px;
@@ -302,6 +305,11 @@ const Cloud = ({ slug, content }) => {
           .container-files {
             grid-template-columns: repeat(3, 1fr);
           }
+        }
+
+        :global(body) {
+          background-color: ${state.darkmode ? 'rgba(0, 0, 0, .88)' : 'white'};
+          color : ${state.darkmode ? 'white' : 'black'};
         }
 
         `}</style>

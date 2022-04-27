@@ -22,7 +22,7 @@ export default function SwitchButton ({ state, toggle }) {
           left: 0;
           right: 0;
           bottom: 0;
-          background-color: #ccc;
+          background-color: #de690c;
           transition: .4s;
           border-radius: 34px;
         }

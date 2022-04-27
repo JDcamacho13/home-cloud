@@ -9,7 +9,7 @@ export const initialState = {
   renameElement: false,
   dragEnter: false,
   modificFilename: null,
-  themeMode: false
+  darkmode: false
 }
 
 export const cloudReducer = (state, action) => {
@@ -17,7 +17,7 @@ export const cloudReducer = (state, action) => {
     case TOGGLE_THEME_MODE:
       return {
         ...state,
-        themeMode: !state.themeMode
+        darkmode: !state.darkmode
       }
     case TOGGLE_UPLOAD:
       return {

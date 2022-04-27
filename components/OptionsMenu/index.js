@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { CloudContext } from 'context/CloudContext'
 import DropDown from 'components/icons/DropDown'
 
 const OptionsMenu = ({ children }) => {
   const [open, setOpen] = useState(false)
+  const { state: { darkmode } } = useContext(CloudContext)
+
   const handleOptionClick = e => {
     e.preventDefault()
     e.stopPropagation()
@@ -39,6 +42,10 @@ const OptionsMenu = ({ children }) => {
                   transition: all .5 ease;
                 }
 
+                button :global(svg) :global(path) {
+                  fill: ${darkmode ? 'white' : 'black'}
+                }
+
                 button:hover :global(svg) :global(path) {
                   fill: #09f
                 }
@@ -57,7 +64,8 @@ const OptionsMenu = ({ children }) => {
                     flex-direction: column;
                     padding: 10px;
                     /* background-color: #343a40; */
-                    background-color: #292929;
+                    background-color: ${darkmode ? '#292929' : 'white'};
+                    color: ${darkmode ? 'white' : 'color'};;
                     border-radius: 10px 0 10px 10px;
                     box-shadow: rgb(0 0 0 / 50%) 5px 5px 12px 5px;
                     z-index: 10;

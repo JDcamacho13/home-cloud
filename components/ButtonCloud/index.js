@@ -1,4 +1,8 @@
+import { useContext } from 'react'
+import { CloudContext } from 'context/CloudContext'
+
 const ButtonCloud = ({ onClick, title, icon, inputFile }) => {
+  const { state: { darkmode } } = useContext(CloudContext)
   return (
     <>
       { inputFile &&
@@ -24,6 +28,7 @@ const ButtonCloud = ({ onClick, title, icon, inputFile }) => {
         }
 
         .create-dir > :global(.file) :global(svg) :global(path) {
+          fill: ${darkmode ? 'white' : 'black'};
           transition: fill .5s ease;
         }
 
@@ -34,14 +39,14 @@ const ButtonCloud = ({ onClick, title, icon, inputFile }) => {
         button {
           width: 100%;
           padding: 23px 33px;
-          background: #2d2d2d;
+          background: ${darkmode ? '#2d2d2d' : 'white'};
           border-radius: 15px;
-          border: 2px dashed #eee;
+          border: 2px dashed ${darkmode ? '#eee' : 'black'};
           max-width: 100%;
           box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
           transition: all .5s ease;
           cursor: pointer;
-          color: #fff;
+          color: ${darkmode ? 'white' : 'black'};
         }
 
         button:hover {

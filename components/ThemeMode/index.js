@@ -14,7 +14,7 @@ export default function ThemeMode () {
   return (
     <>
     <div>
-      <p>{state.themeMode ? 'Modo Claro' : 'Modo Oscuro'}</p> <SwitchButton state={state.themeMode} toggle={toggleTheme} />
+      <p>{!state.darkmode ? 'Modo Claro' : 'Modo Oscuro'}</p> <SwitchButton state={state.darkmode} toggle={toggleTheme} />
     </div>
 
     <style jsx>{`
@@ -22,10 +22,6 @@ export default function ThemeMode () {
         display: flex;
         justify-content: space-between;
         gap: 15px;
-      }
-
-      :global(html) {
-        filter: invert(${!state.themeMode ? '0' : '1'});
       }
 
       p {
