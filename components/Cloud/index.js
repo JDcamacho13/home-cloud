@@ -1,8 +1,9 @@
 import { useRef, useContext } from 'react'
-import axios from 'axios'
 import { useRouter } from 'next/router'
+import { CloudContext, DispatchContext } from 'context/CloudContext'
+import { TOGGLE_UPLOAD, TOGGLE_CREATE_DIRECTORY, TOGGLE_DELETE_ELEMENT, TOGGLE_RENAME_ELEMENT, TOGGLE_DRAG_ENTER, UPLOAD_PERCENTAGE, UPLOAD_COMPLETE } from 'actionTypes/cloudTypes'
+import axios from 'axios'
 import styles from 'styles/Home.module.css'
-import Directory from 'components/Directory'
 import NavStorage from 'components/NavStorage'
 import ButtonCloud from 'components/ButtonCloud'
 import Modal from 'components/Modal'
@@ -12,9 +13,6 @@ import RenameElement from 'components/RenameElement'
 import DeleteElement from 'components/DeleteElement'
 import AddFolder from 'components/icons/AddFolder'
 import AddFile from 'components/icons/AddFile'
-import File from 'components/File'
-import { CloudContext, DispatchContext } from 'context/CloudContext'
-import { TOGGLE_UPLOAD, TOGGLE_CREATE_DIRECTORY, TOGGLE_DELETE_ELEMENT, TOGGLE_RENAME_ELEMENT, TOGGLE_DRAG_ENTER, UPLOAD_PERCENTAGE, UPLOAD_COMPLETE } from 'actionTypes/cloudTypes'
 import RenderDirectories from 'components/RenderDirectories'
 import RenderFiles from 'components/RenderFiles'
 
@@ -193,9 +191,6 @@ const Cloud = ({ slug, content }) => {
                 />
                 {
                   <RenderDirectories directories={content.directories} urlPath={urlPath} />
-                  // content.directories.map(i => (
-                  //   <Directory name={i} url={urlPath} key={i} />
-                  // ))
                 }
               </div>
             </section>
@@ -211,9 +206,6 @@ const Cloud = ({ slug, content }) => {
                 />
                 {
                   <RenderFiles files={content.files} urlPath={urlPath} />
-                  // content.files.map(i => (
-                  //   <File name={i} url={urlPath} key={i} />
-                  // ))
                 }
               </div>
             </section>
