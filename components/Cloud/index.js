@@ -13,11 +13,14 @@ import DeleteElement from 'components/DeleteElement'
 import AddFolder from 'components/icons/AddFolder'
 import AddFile from 'components/icons/AddFile'
 import File from 'components/File'
-import { CloudContext } from 'context/CloudContext'
+import { CloudContext, DispatchContext } from 'context/CloudContext'
 import { TOGGLE_UPLOAD, TOGGLE_CREATE_DIRECTORY, TOGGLE_DELETE_ELEMENT, TOGGLE_RENAME_ELEMENT, TOGGLE_DRAG_ENTER, UPLOAD_PERCENTAGE, UPLOAD_COMPLETE } from 'actionTypes/cloudTypes'
+import RenderDirectories from 'components/RenderDirectories'
+import RenderFiles from 'components/RenderFiles'
 
 const Cloud = ({ slug, content }) => {
-  const { state, dispatch } = useContext(CloudContext)
+  const state = useContext(CloudContext)
+  const dispatch = useContext(DispatchContext)
   const router = useRouter()
   const fileRef = useRef()
   const urlPath = router.asPath
@@ -189,9 +192,10 @@ const Cloud = ({ slug, content }) => {
                   icon={<AddFolder width={30} height={30} />}
                 />
                 {
-                  content.directories.map(i => (
-                    <Directory name={i} url={urlPath} key={i} />
-                  ))
+                  <RenderDirectories directories={content.directories} urlPath={urlPath} />
+                  // content.directories.map(i => (
+                  //   <Directory name={i} url={urlPath} key={i} />
+                  // ))
                 }
               </div>
             </section>
@@ -206,9 +210,10 @@ const Cloud = ({ slug, content }) => {
                   inputFile={<input type='file' ref={fileRef} onChange={handleFileUpload} />}
                 />
                 {
-                  content.files.map(i => (
-                    <File name={i} url={urlPath} key={i} />
-                  ))
+                  <RenderFiles files={content.files} urlPath={urlPath} />
+                  // content.files.map(i => (
+                  //   <File name={i} url={urlPath} key={i} />
+                  // ))
                 }
               </div>
             </section>

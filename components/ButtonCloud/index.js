@@ -2,7 +2,8 @@ import { useContext } from 'react'
 import { CloudContext } from 'context/CloudContext'
 
 const ButtonCloud = ({ onClick, title, icon, inputFile }) => {
-  const { state: { darkmode } } = useContext(CloudContext)
+  const { darkmode } = useContext(CloudContext)
+
   return (
     <>
       { inputFile &&

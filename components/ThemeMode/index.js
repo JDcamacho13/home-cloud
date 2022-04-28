@@ -1,11 +1,12 @@
 
 import { useContext } from 'react'
 import { TOGGLE_THEME_MODE } from 'actionTypes/cloudTypes'
-import { CloudContext } from 'context/CloudContext'
+import { CloudContext, DispatchContext } from 'context/CloudContext'
 import SwitchButton from 'components/Switch'
 
 export default function ThemeMode () {
-  const { state, dispatch } = useContext(CloudContext)
+  const state = useContext(CloudContext)
+  const dispatch = useContext(DispatchContext)
 
   const toggleTheme = () => {
     dispatch({ type: TOGGLE_THEME_MODE })

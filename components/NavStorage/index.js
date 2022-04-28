@@ -5,7 +5,7 @@ import Link from 'next/link'
 import ThemeMode from '../ThemeMode'
 
 export default function NavStorage ({ url = [] }) {
-  const { state: { darkmode } } = useContext(CloudContext)
+  const { darkmode } = useContext(CloudContext)
   let storageUrl = '/storage'
   return (
     <>
