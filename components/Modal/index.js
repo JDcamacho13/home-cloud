@@ -1,10 +1,11 @@
 import reactDOM from 'react-dom'
-import { CloudContext } from 'context/CloudContext'
+import { CloudContext, DispatchContext } from 'context/CloudContext'
 import { useContext } from 'react'
 import { TOGGLE_CREATE_DIRECTORY, TOGGLE_DELETE_ELEMENT, TOGGLE_RENAME_ELEMENT, TOGGLE_UPLOAD } from 'actionTypes/cloudTypes'
 
 const Modal = ({ children }) => {
-  const { state, dispatch } = useContext(CloudContext)
+  const state = useContext(CloudContext)
+  const dispatch = useContext(DispatchContext)
 
   const handleOnClick = (e) => {
     if (e.target.id === 'modal-bg') {

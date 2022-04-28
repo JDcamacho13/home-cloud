@@ -1,9 +1,10 @@
 import { useContext } from "react"
-import { CloudContext } from "context/CloudContext"
+import { CloudContext, DispatchContext } from "context/CloudContext"
 import { TOGGLE_UPLOAD } from "actionTypes/cloudTypes"
 
 const UploadingFile = () => {
-  const { state, dispatch } = useContext(CloudContext)
+  const state = useContext(CloudContext)
+  const dispatch = useContext(DispatchContext)
 
   const handleOnClose = () => {
     dispatch({ type: TOGGLE_UPLOAD })

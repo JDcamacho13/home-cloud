@@ -1,10 +1,10 @@
 import { TOGGLE_RENAME_ELEMENT } from 'actionTypes/cloudTypes'
-import { CloudContext } from 'context/CloudContext'
+import { DispatchContext } from 'context/CloudContext'
 import { useContext, useState } from 'react'
 
 const RenameElement = ({ handleRename }) => {
   const [name, setName] = useState('')
-  const { dispatch } = useContext(CloudContext)
+  const dispatch = useContext(DispatchContext)
 
   const handleOnCancel = () => {
     dispatch({ type: TOGGLE_RENAME_ELEMENT })

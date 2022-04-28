@@ -4,7 +4,7 @@ import DropDown from 'components/icons/DropDown'
 
 const OptionsMenu = ({ children }) => {
   const [open, setOpen] = useState(false)
-  const { state: { darkmode } } = useContext(CloudContext)
+  const { darkmode } = useContext(CloudContext)
 
   const handleOptionClick = e => {
     e.preventDefault()
