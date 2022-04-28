@@ -6,7 +6,7 @@ import ButtonOption from 'components/ButtonOption'
 import { TOGGLE_DELETE_ELEMENT, TOGGLE_RENAME_ELEMENT } from 'actionTypes/cloudTypes'
 
 const File = ({ url, name }) => {
-  const { dispatch } = useContext(CloudContext)
+  const { state: { darkmode }, dispatch } = useContext(CloudContext)
   const publicUrl = url.replace('storage', 'store')
   const downloadRef = useRef(null)
   const urlFile = `${publicUrl}/${name}`
@@ -55,7 +55,7 @@ const File = ({ url, name }) => {
           width: 100%;
           min-width: 100%;
           font-size: 21px;
-          background: #2d2d2d;
+          background: ${darkmode ? '#2d2d2d' : 'white'};
           border-radius: 15px;
           border: 2px solid #2d2d2d;
           box-shadow: rgb(0 0 0 / 40%) 5px 5px 12px 0px;
@@ -63,6 +63,7 @@ const File = ({ url, name }) => {
         }
         
         a:hover {
+          border: 2px solid #09f;
           color: #09f;
         }
 

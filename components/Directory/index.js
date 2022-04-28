@@ -8,7 +8,7 @@ import OptionsMenu from 'components/OptionsMenu'
 import ButtonOption from 'components/ButtonOption'
 
 const Directory = ({ url, name }) => {
-  const { dispatch } = useContext(CloudContext)
+  const { state: { darkmode }, dispatch } = useContext(CloudContext)
   const [hover, setHover] = useState(false)
   const urlDirectory = `${url}/${name}`
 
@@ -52,7 +52,7 @@ const Directory = ({ url, name }) => {
           max-width: 100%;
           min-width: 100%;
           font-size: 21px;
-          background: #2d2d2d;
+          background: ${darkmode ? '#2d2d2d' : 'white'};
           border-radius: 15px;
           border: 2px solid #2d2d2d;
           box-shadow: rgb(0 0 0 / 40%) 5px 5px 12px 0px;
@@ -60,6 +60,7 @@ const Directory = ({ url, name }) => {
         }
 
         a:hover {
+          border: 2px solid #09f;
           color: #09f;
         }
 

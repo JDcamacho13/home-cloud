@@ -1,8 +1,11 @@
-import Link from 'next/link'
+import { useContext } from 'react'
+import { CloudContext } from 'context/CloudContext'
 import { Home } from '../icons/Home'
+import Link from 'next/link'
 import ThemeMode from '../ThemeMode'
 
 export default function NavStorage ({ url = [] }) {
+  const { state: { darkmode } } = useContext(CloudContext)
   let storageUrl = '/storage'
   return (
     <>
@@ -50,7 +53,7 @@ export default function NavStorage ({ url = [] }) {
           margin: 0 auto;
           padding: 25px 0;
           width: 100%;
-          max-width: calc(90vw - 50px)
+          max-width: calc(100vw - 50px)
         }
 
         .nav {
@@ -59,7 +62,7 @@ export default function NavStorage ({ url = [] }) {
           padding: 0 15px;
           width: 100%;
           height: 55px;
-          border: 1px solid #eee;
+          border: 1px solid ${darkmode ? '#eee' : '#000'};
           border-radius: 10px;
           overflow-x: auto;
         }
@@ -95,6 +98,10 @@ export default function NavStorage ({ url = [] }) {
           transition: all .5s ease;
         }
 
+        .home-nav :global(svg) :global(path) {
+          fill: ${darkmode ? 'white' : '#000'};
+        }
+
         .home-nav:hover :global(svg) :global(path) {
           fill: #09f;
         }
@@ -110,7 +117,7 @@ export default function NavStorage ({ url = [] }) {
 
         @media (min-width: 768px) {
           .header {
-            padding: 25px 25px 25px 25px;
+            padding: 25px 0px 50px 0px;
           }
         }
 

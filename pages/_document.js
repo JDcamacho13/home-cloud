@@ -1,7 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 export default class MyDocument extends Document {
-  static async getInitialProps(ctx) {
+  static async getInitialProps (ctx) {
     const initialProps = await Document.getInitialProps(ctx)
     return { ...initialProps }
   }
@@ -10,7 +10,7 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          
+
           <style>{`
             #__next { 
               position: relative;
