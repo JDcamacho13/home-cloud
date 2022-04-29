@@ -1,56 +1,29 @@
-import { memo, useRef, useContext, useMemo, lazy, Suspense } from 'react'
-import { CloudContext, DispatchContext } from 'context/CloudContext'
-import { extensionIconFinder } from '../../utils/extensionIconFinder'
-import OptionsMenu from 'components/OptionsMenu'
-import ButtonOption from 'components/ButtonOption'
-import { TOGGLE_DELETE_ELEMENT, TOGGLE_RENAME_ELEMENT } from 'actionTypes/cloudTypes'
+import { useRef, useContext } from 'react'
+import { CloudContext } from 'context/CloudContext'
+import IconFileSelect from 'components/IconFileSelect'
 
 const File = ({ url, name }) => {
   const { darkmode } = useContext(CloudContext)
-  const dispatch = useContext(DispatchContext)
   const publicUrl = url.replace('storage', 'store')
   const downloadRef = useRef(null)
   const urlFile = `${publicUrl}/${name}`
   const nameContent = name.split('.')
   const fileName = nameContent.splice(0, nameContent.length - 1).join('.')
   const fileExtension = nameContent.pop()
-  const extensionIcon = extensionIconFinder(fileExtension)
-  const Icon = lazy(() => import(`components/icons/${extensionIcon}`))
-  
+
   const handleDownload = () => {
     downloadRef.current.setAttribute('download', fileName)
   }
-  
-  const onRename = e => {
-    e.preventDefault()
-    dispatch({ type: TOGGLE_RENAME_ELEMENT, payload: name })
-  }
 
-  const onDelete = e => {
-    e.preventDefault()
-    dispatch({ type: TOGGLE_DELETE_ELEMENT, payload: name })
-  }
-  
-  return useMemo(() => {
-    return(
+  return (
     <>
         <a onClick={handleDownload} href={urlFile} ref={downloadRef}>
-            <span className='icon'>
-              <Suspense fallback={null}>
-                <Icon width={30} height={30} />
-              </Suspense>
-            </span>
-            <span className='name'>{fileName}</span>
-            <span className='extension'>.{fileExtension}</span>
-            <OptionsMenu>
-              <ButtonOption title='Renombrar' onClick={onRename} />
-              <ButtonOption title='Borrar' onClick={onDelete} />
-            </OptionsMenu>
+            <IconFileSelect fileName={fileName} fileExtension={fileExtension} name={name} />
         </a>
 
         <style jsx>{`
 
-a {
+          a {
             position: relative;
             display: flex;
             padding: 23px 33px;
@@ -90,8 +63,7 @@ a {
 
         `}</style>
       </>
-    )
-  }, [darkmode])
+  )
 }
 
-export default memo(File)
+export default File

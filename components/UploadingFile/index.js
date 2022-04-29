@@ -1,10 +1,11 @@
-import { useContext } from "react"
-import { CloudContext, DispatchContext } from "context/CloudContext"
-import { TOGGLE_UPLOAD } from "actionTypes/cloudTypes"
+import { useContext } from 'react'
+import { CloudContext, DispatchContext } from 'context/CloudContext'
+import { TOGGLE_UPLOAD } from 'actionTypes/cloudTypes'
 
 const UploadingFile = () => {
   const state = useContext(CloudContext)
   const dispatch = useContext(DispatchContext)
+  const { darkmode } = state
 
   const handleOnClose = () => {
     dispatch({ type: TOGGLE_UPLOAD })
@@ -27,7 +28,7 @@ const UploadingFile = () => {
                 : (<div className="progress-bar-percent">{state.uploadPercent}%</div>)
             }
           </>
-          )
+            )
           : (
           <>
             <h1>Archivo subido correctamente</h1>
@@ -61,19 +62,20 @@ const UploadingFile = () => {
         button {
           padding: 10px 15px;
           font-size: 18px;
-          background: #2d2d2d;
+          background: ${darkmode ? '#2d2d2d' : '#fff'};
           border-radius: 10px;
-          border: 2px dashed #eee;
+          border: 2px dashed ${darkmode ? '#eee' : '#09f'};;
           max-width: 100%;
           box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
           transition: all .5s ease;
           cursor: pointer;
-          color: #fff;
+          color: ${darkmode ? '#fff' : '#09f'};
         }
 
         button:hover {
-          color: #09f;
-          border-color: #09f;
+          color: ${darkmode ? '#09f' : '#fff'};
+          border: ${darkmode ? '2px dashed #09f' : '2px solid #09f'};
+          ${!darkmode && 'background: #09f'};
           transform: scale(1.05)
         }
 

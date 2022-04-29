@@ -35,7 +35,7 @@ const Modal = ({ children }) => {
           position: fixed;
           top: 0;
           left: 0;
-          display: flex;;
+          display: flex;
           align-items: center;
           justify-content: center;
           width: 100vw;
@@ -47,8 +47,8 @@ const Modal = ({ children }) => {
           padding: 24px;
           width: 90%;
           max-width: 500px;
-          background: #2a2a2a;
-          color: white;
+          background: ${state.darkmode ? '#2a2a2a' : 'white'};
+          color: ${state.darkmode ? 'white' : 'black'};
           border-radius: 15px;
         }
       `}</style>

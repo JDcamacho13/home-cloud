@@ -1,10 +1,12 @@
 import { TOGGLE_RENAME_ELEMENT } from 'actionTypes/cloudTypes'
-import { DispatchContext } from 'context/CloudContext'
+import { DispatchContext, CloudContext } from 'context/CloudContext'
 import { useContext, useState } from 'react'
 
 const RenameElement = ({ handleRename }) => {
   const [name, setName] = useState('')
   const dispatch = useContext(DispatchContext)
+  const state = useContext(CloudContext)
+  const { darkmode } = state
 
   const handleOnCancel = () => {
     dispatch({ type: TOGGLE_RENAME_ELEMENT })
@@ -42,7 +44,7 @@ const RenameElement = ({ handleRename }) => {
           max-width: 250px;
           text-align: center;
           font-size: 18px;
-          color: white;
+          color: ${darkmode ? '#fff' : '#000'};
           background: none;
           border: none;
           border-bottom: 2px dashed white;
@@ -68,33 +70,36 @@ const RenameElement = ({ handleRename }) => {
         button {
           padding: 10px 15px;
           font-size: 18px;
-          background: #2d2d2d;
+          background: ${darkmode ? '#2d2d2d' : '#fff'};
           border-radius: 10px;
-          border: 2px dashed #eee;
+          border: 2px dashed ${darkmode ? '#eee' : '#09f'};;
           max-width: 100%;
           box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
           transition: all .5s ease;
           cursor: pointer;
-          color: #fff;
+          color: ${darkmode ? '#fff' : '#09f'};
         }
 
         button:hover {
-          color: #09f;
-          border-color: #09f;
+          color: ${darkmode ? '#09f' : '#fff'};
+          border: ${darkmode ? '2px dashed #09f' : '2px solid #09f'};
+          ${!darkmode && 'background: #09f'};
           transform: scale(1.05)
         }
 
         .cancel {
           background: none;
-          box-shadow: none;
-          border: 2px dashed transparent;
+          ${darkmode && 'box-shadow: none'};
+          border: 2px dashed ${darkmode ? 'transparent' : '#d62828'};
           outline: none;
+          ${!darkmode && 'color: #d62828;'};
+          
         }
 
         .cancel:hover {
-          background: #2d2d2d;
-          color: #d62828;
-          border: 2px dashed #d62828;
+          background: ${darkmode ? '#2d2d2d' : '#d62828'};
+          color: ${darkmode ? '#d62828' : '#fff'};
+          border: ${darkmode ? '2px dashed #d62828' : '2px solid #d62828'};
         }
 
       `}</style>
