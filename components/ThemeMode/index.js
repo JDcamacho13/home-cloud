@@ -15,7 +15,7 @@ export default function ThemeMode () {
   return (
     <>
     <div>
-      <p>{!state.darkmode ? 'Modo Claro' : 'Modo Oscuro'}</p> <SwitchButton state={state.darkmode} toggle={toggleTheme} />
+      <SwitchButton state={state.darkmode} toggle={toggleTheme} />
     </div>
 
     <style jsx>{`
