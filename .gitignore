@@ -36,5 +36,5 @@ yarn-error.log*
 public/store/*
 
 # exception to the rule
-public/!store/.gitkeep 
+!public/store/.gitkeep 
 
