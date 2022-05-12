@@ -8,7 +8,7 @@ export default function processPath (urlPath) {
 
   console.log(storage, relativePath)
 
-  const absolutePath = path.join(...storage, relativePath)
+  const absolutePath = path.join(storage, relativePath)
 
   return { relativePath, absolutePath }
 }
