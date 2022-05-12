@@ -85,6 +85,7 @@ const Directory = ({ url, name }) => {
         `}</style>
       </>
     )
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [darkmode, hover])
 }
 
