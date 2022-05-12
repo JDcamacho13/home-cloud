@@ -34,3 +34,8 @@ yarn-error.log*
 # vercel
 .vercel
 
+store/*
+
+# exception to the rule
+!store/.gitkeep 
+
