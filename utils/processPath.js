@@ -3,7 +3,7 @@ const path = require('path')
 const slash = process.platform === 'win32' ? '\\' : '/'
 
 export default function processPath (urlPath) {
-  const storage = __dirname.split(slash)
+  const storage = process.env.NODE_ENV === 'development' ? 'public/store' : 'var/task/.next/server/pages/store'
   const relativePath = urlPath || slash
 
   console.log(storage, relativePath)
