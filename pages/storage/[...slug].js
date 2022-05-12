@@ -19,7 +19,7 @@ export async function getServerSideProps (context) {
   const { params } = context
   const { slug } = params
 
-  const URL_API = process.env.NODE_ENV === 'development' ? `http://${process.env.NEXT_PUBLIC_HOST}` : `http://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  const URL_API = process.env.NODE_ENV === 'development' ? `http://${process.env.NEXT_PUBLIC_HOST}` : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
 
   const url = slug.join('/')
 

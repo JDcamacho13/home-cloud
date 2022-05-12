@@ -17,7 +17,7 @@ export default function Home ({ content }) {
 }
 
 export async function getServerSideProps () {
-  const URL_API = process.env.NODE_ENV === 'development' ? `http://${process.env.NEXT_PUBLIC_HOST}` : `http://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  const URL_API = process.env.NODE_ENV === 'development' ? `http://${process.env.NEXT_PUBLIC_HOST}` : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
 
   const content = await axios.get(`${URL_API}/api/storage/`)
 
