@@ -4,7 +4,6 @@ import { memo } from 'react'
 const RenderFiles = ({ files, urlPath }) => {
   // const state = useContext(CloudContext)
 
-  console.log('render')
   return (
         <>
             {

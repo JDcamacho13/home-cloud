@@ -19,9 +19,11 @@ export async function getServerSideProps (context) {
   const { params } = context
   const { slug } = params
 
+  const URL_API = process.env.NODE_ENV === 'development' ? `http://${process.env.NEXT_PUBLIC_HOST}` : `http://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+
   const url = slug.join('/')
 
-  const content = await axios.get(`${process.env.NEXT_PUBLIC_HOST}/api/storage/` + url)
+  const content = await axios.get(`${URL_API}/api/storage/` + url)
 
   return {
     props: {

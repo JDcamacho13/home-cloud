@@ -17,6 +17,10 @@ import RenderDirectories from 'components/RenderDirectories'
 import RenderFiles from 'components/RenderFiles'
 
 const Cloud = ({ slug, content }) => {
+  console.log(process.env.NODE_ENV)
+
+  const URL_API = process.env.NODE_ENV === 'development' ? `http://${process.env.NEXT_PUBLIC_HOST}` : `http://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+
   const state = useContext(CloudContext)
   const dispatch = useContext(DispatchContext)
   const router = useRouter()
@@ -46,7 +50,7 @@ const Cloud = ({ slug, content }) => {
       }
     }
 
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/upload${url}`, fd, config)
+    const response = await axios.post(`${URL_API}/api/upload${url}`, fd, config)
 
     if (response.data.data === 'success') {
       dispatch({ type: UPLOAD_COMPLETE })
@@ -63,7 +67,7 @@ const Cloud = ({ slug, content }) => {
     const extension = fileExtension === state.modificFilename ? '' : `.${fileExtension}`
     const req = await axios({
       method: 'put',
-      url: `${process.env.NEXT_PUBLIC_HOST}/api/renameFile`,
+      url: `${URL_API}/api/renameFile`,
       data: {
         url,
         name: state.modificFilename,
@@ -89,7 +93,7 @@ const Cloud = ({ slug, content }) => {
     const url = slug ? `/${slug.join('/')}` + '/' + state.modificFilename : '/' + state.modificFilename
     const req = await axios({
       method: 'delete',
-      url: `${process.env.NEXT_PUBLIC_HOST}/api/deleteFile`,
+      url: `${URL_API}/api/deleteFile`,
       data: {
         url
       },
@@ -112,7 +116,7 @@ const Cloud = ({ slug, content }) => {
     const pathRelative = slug ? `/${slug.join('/')}` : '/'
     const req = await axios({
       method: 'post',
-      url: `${process.env.NEXT_PUBLIC_HOST}/api/createDirectory` + pathRelative,
+      url: `${URL_API}/api/createDirectory` + pathRelative,
       data: {
         name: directoryName
       },
@@ -147,7 +151,7 @@ const Cloud = ({ slug, content }) => {
       }
     }
 
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/api/upload${url}`, fd, config)
+    const response = await axios.post(`${URL_API}/api/upload${url}`, fd, config)
 
     if (response.data.data === 'success') {
       dispatch({ type: UPLOAD_COMPLETE })
