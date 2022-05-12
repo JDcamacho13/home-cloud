@@ -15,7 +15,7 @@ export default function Home () {
       <Head>
         <title>Home Cloud ☁</title>
         <meta name="description" content="Cloud for storage" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/home.ico" />
       </Head>
     </div>
   )

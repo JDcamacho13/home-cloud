@@ -6,9 +6,9 @@ export default function Home ({ slug, content }) {
   return (
     <>
       <Head>
-        <title>Home Cloud ☁</title>
+        <title>Home Cloud ☁ | / {slug.join(' / ')} </title>
         <meta name="description" content="Cloud for storage" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/home.ico" />
       </Head>
       <Cloud slug={slug} content={content}/>
     </>
