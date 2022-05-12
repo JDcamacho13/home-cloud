@@ -3,52 +3,43 @@ export default function SwitchButton ({ state, toggle }) {
   return (
     <>
       <label className="switch">
-        <input type="checkbox" checked={state} onChange={toggle} />
-        <span className="slider round"></span>
+        <input type="checkbox" className="toggle" checked={state} onChange={toggle} />
       </label>
 
       <style jsx>{`
-        .switch {
-          position: relative;
-          display: inline-block;
-          width: 50px;
-          height: 30px;
-        }
-
-        .slider {
-          position: absolute;
+        .toggle {          
+          appearance: none;
+          outline: none;
           cursor: pointer;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-color: #de690c;
-          transition: .4s;
-          border-radius: 34px;
-        }
+          
+          width: 1.5rem;
+          height: 1.5rem;
+          border-radius: 999px;
 
-        .slider:before {
-          position: absolute;
-          content: "";
-          height: 23px;
-          width: 23px;
-          left: 4px;
-          bottom: 4px;
-          background-color: white;
-          transition: .4s;
-          border-radius: 50%;
-        }
+          transition: all 0.5s;
 
-        input:checked + .slider {
-          background-color: #2196F3;
-        }
-
-        input:focus + .slider {
-          box-shadow: 0 0 1px #2196F3;
-        }
-
-        input:checked + .slider:before {
-          transform: translateX(20px);
+          ${state
+                ? (
+                    `box-shadow: inset calc(2rem * 0.33) calc(2rem * -0.25) 0;
+                    color: hsl(240, 100%, 95%);
+                    `
+                  )
+            : `transform: scale(0.75);
+            color: hsl(40, 100%, 50%);
+            --ray-size: calc(1.5rem * -0.4);
+    --offset-orthogonal: calc(1.5rem * 0.65);
+    --offset-diagonal: calc(1.5rem * 0.45);
+  box-shadow: 
+      inset 0 0 0 1.5rem,
+      calc(var(--offset-orthogonal) * -1) 0 0 var(--ray-size),
+      var(--offset-orthogonal) 0 0 var(--ray-size),
+      0 calc(var(--offset-orthogonal) * -1) 0 var(--ray-size),
+      0 var(--offset-orthogonal) 0 var(--ray-size),
+      calc(var(--offset-diagonal) * -1) calc(var(--offset-diagonal) * -1) 0 var(--ray-size),
+      var(--offset-diagonal) var(--offset-diagonal) 0 var(--ray-size),
+      calc(var(--offset-diagonal) * -1) var(--offset-diagonal) 0 var(--ray-size),
+      var(--offset-diagonal) calc(var(--offset-diagonal) * -1) 0 var(--ray-size);
+            `}
         }
         `}</style>
     </>
