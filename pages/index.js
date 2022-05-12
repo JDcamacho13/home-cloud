@@ -14,7 +14,7 @@ export default function Home () {
     <div className={styles.container}>
       <Head>
         <title>Home Cloud ☁</title>
-        <meta name="description" content="Cloud for storage" />
+        <meta name="description" content="Cloud for storage in your home" />
         <link rel="icon" href="/home.ico" />
       </Head>
     </div>
