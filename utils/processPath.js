@@ -3,7 +3,7 @@ const path = require('path')
 const slash = process.platform === 'win32' ? '\\' : '/'
 
 export default function processPath (urlPath) {
-  const storage = 'public/store'
+  const storage = 'store'
   const relativePath = urlPath || slash
 
   const absolutePath = path.join(storage, relativePath)
