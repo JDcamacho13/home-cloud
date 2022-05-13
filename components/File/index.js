@@ -6,7 +6,7 @@ const File = ({ url, name }) => {
   const { darkmode } = useContext(CloudContext)
   const publicUrl = url.replace('storage', 'store')
   const downloadRef = useRef(null)
-  const urlFile = `${publicUrl}/${name}`
+  const urlFile = process.env.NODE_ENV === 'development' ? `${publicUrl}/${name}` : 'https://' + process.env.NEXT_PUBLIC_HOST_REMOTE + publicUrl + '/' + name
   const nameContent = name.split('.')
   const fileName = nameContent.splice(0, nameContent.length - 1).join('.')
   const fileExtension = nameContent.pop()

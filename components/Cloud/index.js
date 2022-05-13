@@ -17,9 +17,7 @@ import RenderDirectories from 'components/RenderDirectories'
 import RenderFiles from 'components/RenderFiles'
 
 const Cloud = ({ slug, content }) => {
-  console.log(process.env.NODE_ENV)
-
-  const URL_API = process.env.NODE_ENV === 'development' ? `http://${process.env.NEXT_PUBLIC_HOST}` : `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  const URL_API = process.env.NODE_ENV === 'development' ? `http://${process.env.NEXT_PUBLIC_HOST}` : 'https://' + process.env.NEXT_PUBLIC_HOST_REMOTE
 
   const state = useContext(CloudContext)
   const dispatch = useContext(DispatchContext)
