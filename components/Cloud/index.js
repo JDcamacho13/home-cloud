@@ -307,6 +307,7 @@ const Cloud = ({ slug, content }) => {
         }
 
         :global(body) {
+          transition: 0.25s all;
           background-color: ${state.darkmode ? 'rgba(0, 0, 0, .88)' : 'white'};
           color : ${state.darkmode ? 'white' : 'black'};
         }
